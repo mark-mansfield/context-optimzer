@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Light theme tokens (default) ─────────────────────────── */
+:root {
+  --color-bg-primary: #f8f9fb;
+  --color-bg-surface: #ffffff;
+  --color-bg-muted: #f0f1f3;
+  --color-bg-elevated: #ffffff;
+  --color-border: #d4d7dd;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #9ca3af;
+  --color-accent: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+}
+
+/* ── Dark theme tokens ────────────────────────────────────── */
+.dark {
+  --color-bg-primary: #0f1117;
+  --color-bg-surface: #1a1d27;
+  --color-bg-muted: #252833;
+  --color-bg-elevated: #1e2130;
+  --color-border: #333849;
+  --color-text-primary: #f1f3f5;
+  --color-text-secondary: #9ca3b0;
+  --color-text-muted: #5c6370;
+  --color-accent: #60a5fa;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+}

@@ -1,6 +1,8 @@
 # TODO_04: Dark / Light Theme with System Detection and Manual Toggle
 
-Status: TODO
+Status: DONE
+
+**What changed:** Added 12 semantic CSS custom-property tokens (light + dark) to `index.css` with Tailwind v4 `@custom-variant dark`. Created `themeStore.ts` (Zustand) with system/light/dark preference persisted to localStorage, live `matchMedia` listener, and DOM class toggling. Built `<ThemeToggle />` component using lucide-react icons. Wired `initTheme()` in `main.tsx`. Added Storybook toolbar theme switcher via `globalTypes` + global decorator in `.storybook/preview.tsx`. Added `ThemeTokens.stories.tsx` swatch grid for visual palette verification. All gates pass: `yarn test` (13 passed), `yarn typecheck` (0 errors), `yarn build-storybook` (exit 0).
 
 ## Context
 
@@ -95,10 +97,10 @@ A decorator keeps everything in the preview config (no separate addon package). 
 - [x] `document.documentElement.classList` gets `"dark"` toggled based on `resolved`.
 - [x] `src/dashboard/components/ThemeToggle.tsx` renders a control that lets the user pick system / light / dark.
 - [x] `src/dashboard/components/ThemeToggle.stories.tsx` exists with stories for each preference state.
-- [ ] `.storybook/preview.ts` registers a `theme` `globalType` toolbar item with `light`, `dark`, `system` options.
-- [ ] `.storybook/preview.ts` exports a global decorator that toggles the `dark` class on `document.documentElement` and applies `colorScheme` based on the toolbar selection.
-- [ ] `src/dashboard/components/ThemeTokens.stories.tsx` exists and renders a swatch grid of all 12 semantic tokens for visual verification.
-- [ ] Switching the Storybook toolbar dropdown between light / dark / system visibly changes every story's appearance.
+- [x] `.storybook/preview.tsx` registers a `theme` `globalType` toolbar item with `light`, `dark`, `system` options.
+- [x] `.storybook/preview.tsx` exports a global decorator that toggles the `dark` class on `document.documentElement` and applies `colorScheme` based on the toolbar selection.
+- [x] `src/dashboard/components/ThemeTokens.stories.tsx` exists and renders a swatch grid of all 12 semantic tokens for visual verification.
+- [x] Switching the Storybook toolbar dropdown between light / dark / system visibly changes every story's appearance.
 - [x] `yarn test` exits 0 (unit tests for the store's resolve logic).
 - [x] `yarn typecheck` exits 0.
 - [x] `yarn build-storybook` exits 0.
