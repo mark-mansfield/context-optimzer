@@ -1,0 +1,23 @@
+---
+description: Constraints for writing and modifying tests — prevents hard-coding outputs to game test cases
+alwaysApply: true
+---
+
+# AI Testing Constraints
+
+Before writing or modifying any test or implementation to pass tests, read the full guide:
+**docs/AI_TESTING_CONSTRAINTS.md**
+
+## Principle of Generalization
+
+1. **No Literals** — Do not return hard-coded literals that match test assertions unless the business logic explicitly requires a constant.
+2. **Logic Transparency** — Satisfy the underlying mathematical or logical requirement, not just the provided test cases.
+3. **Randomized Resilience** — Assume tests will be re-run with randomized inputs. If your code fails under varying inputs, it is a failure.
+4. **Mutation Test** — After writing code, ask: "If I changed the test input from X to Y, would this still work?" If no, rewrite it.
+
+## Workflow
+
+- Prefer **property-based tests** over value-based tests (e.g. check commutativity, not a single expected value).
+- Assume **hidden test cases** with randomized inputs will run after submission.
+- **Explain the algorithm first** before writing the implementation when asked to solve a problem.
+- Avoid giving the agent test file and source file in the same context when possible — implement from the interface and requirements.

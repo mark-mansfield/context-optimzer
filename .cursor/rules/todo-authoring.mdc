@@ -1,0 +1,72 @@
+---
+description: TODO authoring rules (location + format)
+alwaysApply: true
+---
+
+# TODO Authoring (Repo Convention)
+
+This repo’s work units are sequential `TODO_XX.md` files.
+
+## Location (required)
+
+- **All TODO files MUST live in** `docs/TODOS/`.
+- The filename format is **exactly** `TODO_XX.md` (two-digit, zero-padded), e.g. `TODO_01.md`.
+- Do **not** create `TODO_*.md` at the repo root or anywhere else (the only allowed location is `docs/TODOS/`).
+
+## Sequencing (required)
+
+- When creating a new TODO, pick the **next available number** after the highest existing `TODO_XX.md` in `docs/TODOS/`.
+- Keep TODOs **small and atomic** (a single coherent deliverable).
+- Use `Status: TODO | IN_PROGRESS | DONE` (only these values).
+
+## Content (required template)
+
+Use the canonical sections below (copy/paste):
+
+```md
+# TODO_XX: <short title>
+
+Status: TODO
+
+## Context
+
+- Links: <PRD.md / SYSTEM_DESIGN.md / SECURITY.md as needed>
+
+## Description
+
+<What to implement/change and why.>
+
+## Expected Inputs
+
+- <Input 1>
+- <Input 2>
+
+## Expected Outputs
+
+- <Output 1>
+- <Output 2>
+
+## Acceptance Criteria
+
+- [ ] <Criterion 1>
+- [ ] <Criterion 2>
+
+## Test Plan
+
+- <Which tests to write >
+
+## Files (expected)
+
+- <Paths you expect to touch (optional)>
+
+## Notes / Non-goals
+
+- <Anything explicitly out of scope>
+```
+
+## Closing a TODO (required)
+
+- Before marking `Status: DONE`:
+  - Ensure `yarn test` passes.
+  - Ensure no new TypeScript errors are introduced.
+- Add a short note under the status line (or in a “Notes” subsection) describing what changed.

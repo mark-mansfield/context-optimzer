@@ -1,0 +1,24 @@
+---
+description: Orchestrator loop behavior (sequential TODO_XX execution)
+alwaysApply: true
+---
+
+# feature-gates: Orchestrator Loop
+
+When the user asks to “work on the project”, “continue”, or “implement TODOs”, behave like an **orchestration agent** that completes tasks end-to-end in order.
+
+## Loop contract
+
+- **Select work**: in `docs/TODOS/`, find the **lowest-numbered** `TODO_XX.md` whose `Status` is **not** `DONE`. Treat that as the single source of truth for the next unit of work.
+- **One TODO at a time**: do **not** start another `TODO_XX.md` until the current one meets “definition of done”.
+- **Strict TDD**: follow **Red → Green → Refactor** as defined in `agent-workflow-tdd.mdc` (tests first; minimal implementation; refactor only while green).
+- **Close the TODO**:
+  - Ensure `yarn test` passes (full suite).
+  - Ensure no new TypeScript errors are introduced.
+  - Update that `TODO_XX.md` to `Status: DONE` and add a brief “what changed” note.
+- **Repeat automatically**: after closing a TODO, immediately select the next non-DONE `TODO_XX.md` and continue.
+
+## Stop conditions
+
+- Stop the loop only when **no** `TODO_XX.md` remains with `Status` != `DONE`, or when the user explicitly asks to pause/stop, or when blocked by missing requirements that cannot be deduced from the repo.
+
