@@ -2,13 +2,13 @@
 
 ## 📋 Description
 
-This rule enforces a strict feature-gated agent workflow using Test-Driven Development (TDD) and a sequential TODO contract.
+This rule defines the **TDD mechanics, project structure, and test commands** for the DCO project. It is referenced by `orchestrator-loop.mdc`, which owns TODO selection, sequencing, and loop control.
 
 ## 🛠️ Ground Rules
 
-- **Sequential Execution**: Always find the lowest-numbered `TODO_XX.md` in `docs/TODOS/` whose Status is not `DONE` before starting work.
-- **Tests First**: Do not implement any logic until a failing test exists that matches the TODO’s expected behavior.
+- **Tests First**: Do not implement any logic until a failing test exists that matches the TODO's expected behavior.
 - **Minimal Change**: Implement only the smallest, safest change that makes the test pass.
+- **Anti-Gaming**: All tests and implementations must also satisfy the constraints in `ai-testing-constraints.mdc`.
 
 ## 📂 Project Structure
 
@@ -19,19 +19,23 @@ This rule enforces a strict feature-gated agent workflow using Test-Driven Devel
 
 ## 🧪 Commands (Vitest)
 
-- `npm run test:watch`: Preferred mode while implementing.
-- `npm run test`: Full suite (required before marking a TODO done).
-- `npm run test:phases`: Core logic tests only.
-- `npm run test:ui`: Dashboard and React component tests.
+- `yarn test:watch`: Preferred mode while implementing.
+- `yarn test`: Full suite (required before marking a TODO done).
+- `yarn test:phases`: Core logic tests only.
+- `yarn test:ui`: Dashboard and React component tests.
+- `yarn test:e2e`: Playwright end-to-end tests.
 
-## 🔄 Execution Loop
+## 🎭 Frontend Testing (Playwright)
 
-1. **Understand**: Read `TODO_XX.md` and extract Expected Inputs, Expected Outputs, and Acceptance Criteria.
-2. **Red**: Add/extend failing tests that encode the TODO’s requirements.
+- If a TODO touches files in `src/dashboard/`, evaluate whether a Playwright e2e test is warranted.
+- Add a Playwright test when the change affects **user-visible behavior**: new UI components, interactions, navigation, or data rendering.
+- Skip Playwright for pure refactors, type-only changes, or internal hook logic with no visible effect.
+- Playwright tests live in `e2e/`.
+- Run with `yarn test:e2e`.
+
+## 🔄 Red → Green → Refactor
+
+1. **Understand**: Read the current `TODO_XX.md` and extract Expected Inputs, Expected Outputs, and Acceptance Criteria.
+2. **Red**: Add/extend failing tests that encode the TODO's requirements.
 3. **Green**: Implement the minimal code needed to satisfy the failing test(s).
 4. **Refactor**: Clean up names, types, and boundaries while keeping tests green.
-5. **Close**: Ensure `npm run test` passes, no new TS errors exist, and update the TODO file status to `DONE`.
-
-## 📝 TODO Template
-
-Always follow the canonical template in `docs/TODOS/` which includes Context, Description, Inputs/Outputs, Acceptance Criteria, and Test Plan.
