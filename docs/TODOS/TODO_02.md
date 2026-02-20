@@ -1,6 +1,8 @@
 # TODO_02: Install Phase 4 Dependencies & Configure Build Tooling
 
-Status: TODO
+Status: DONE
+
+**What changed:** Installed all Phase 4 runtime deps (`react`, `react-dom`, `tailwindcss`, `@tailwindcss/vite`, `framer-motion`) and dev deps (`vite`, `@vitejs/plugin-react`, `@types/react`, `@types/react-dom`, `jsdom`, `@testing-library/react`, `@testing-library/dom`, `@testing-library/jest-dom`). Created `vite.config.ts` with React + Tailwind plugins and `@/` alias. Updated `tsconfig.json` with `jsx: react-jsx` and DOM lib. Updated `vitest.config.ts` with `jsdom` environment and `.tsx` test glob. Scaffolded `index.html`, `src/dashboard/main.tsx`, `App.tsx`, `App.test.tsx`, and `index.css`. Added `dev` and `build` scripts. All gates pass: `yarn test` (1 passed), `yarn typecheck` (0 errors), `yarn build` (produces `dist/`).
 
 ## Context
 
