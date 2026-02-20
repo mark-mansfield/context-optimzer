@@ -1,6 +1,8 @@
 # TODO_05: Timeline Component (Phase 4 Trace Visualization)
 
-Status: TODO
+Status: DONE
+
+**What changed:** Added `Timeline.tsx` with `TimelineStep`/`TimelineTrace` types and props for `trace`, `loading`, and `error`. Component renders three phases (Retrieval, Rerank, Response) using semantic theme tokens; shows loading state (role="status") or error (role="alert") when provided; error takes precedence over loading. Added `Timeline.test.tsx` (five tests: step labels, loading, error, error over loading, loading over trace) with cleanup. Added `Timeline.stories.tsx` (TraceView, Loading, Error). All gates pass: `yarn test` (18 passed), `yarn typecheck`, `yarn build-storybook`.
 
 ## Context
 
@@ -28,12 +30,12 @@ Implement a **Timeline** React component that visually represents the execution 
 
 ## Acceptance Criteria
 
-- [ ] A `Timeline` component exists (e.g. `src/dashboard/components/Timeline.tsx`) that accepts props for trace data and loading/error state.
-- [ ] The component renders at least three distinct steps: Phase 1 (Retrieval), Phase 2 (Rerank), Phase 3 (Route/Response).
-- [ ] Styling uses semantic theme tokens from `index.css` (no hard-coded hex for foreground/background).
-- [ ] Storybook story file (e.g. `Timeline.stories.tsx`) includes stories: Loading, Trace-View (with mock trace), Error.
-- [ ] Unit tests (e.g. `Timeline.test.tsx`) verify that steps render correctly and that loading/error states render when provided.
-- [ ] `yarn test` passes; `yarn typecheck` passes; `yarn build-storybook` succeeds.
+- [x] A `Timeline` component exists (e.g. `src/dashboard/components/Timeline.tsx`) that accepts props for trace data and loading/error state.
+- [x] The component renders at least three distinct steps: Phase 1 (Retrieval), Phase 2 (Rerank), Phase 3 (Route/Response).
+- [x] Styling uses semantic theme tokens from `index.css` (no hard-coded hex for foreground/background).
+- [x] Storybook story file (e.g. `Timeline.stories.tsx`) includes stories: Loading, Trace-View (with mock trace), Error.
+- [x] Unit tests (e.g. `Timeline.test.tsx`) verify that steps render correctly and that loading/error states render when provided.
+- [x] `yarn test` passes; `yarn typecheck` passes; `yarn build-storybook` succeeds.
 
 ## Test Plan
 
