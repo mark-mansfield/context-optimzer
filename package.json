@@ -1,0 +1,19 @@
+{
+  "name": "dynamic-context-optimizer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:pipeline": "vitest run --project pipeline",
+    "test:ui": "vitest run --project ui",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
