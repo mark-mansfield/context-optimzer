@@ -12,16 +12,19 @@ This rule defines the **TDD mechanics, project structure, and test commands** fo
 
 ## 📂 Project Structure
 
-- `src/phases/`: Core DCO logic (Phase 1: Retrieval, Phase 2: Reranking, Phase 3: Routing).
+- `src/pipeline/retriever/`: Hybrid search (BM25 + vector via LanceDB).
+- `src/pipeline/reranker/`: Cross-encoder reranking and context pruning.
+- `src/pipeline/router/`: Intent classification and model routing.
 - `src/shared/`: Framework-agnostic store, logic, and schemas.
 - `src/dashboard/`: React adapters and hooks for observability.
-- `src/test/`: Unit and integration tests for all tiers.
+- `src/integration/`: Cross-module integration tests.
+- Unit tests are **co-located** with source files (e.g., `retriever.ts` → `retriever.test.ts` in the same directory).
 
 ## 🧪 Commands (Vitest)
 
 - `yarn test:watch`: Preferred mode while implementing.
 - `yarn test`: Full suite (required before marking a TODO done).
-- `yarn test:phases`: Core logic tests only.
+- `yarn test:pipeline`: Core pipeline logic tests only.
 - `yarn test:ui`: Dashboard and React component tests.
 - `yarn test:e2e`: Playwright end-to-end tests.
 

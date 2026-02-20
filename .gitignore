@@ -1,0 +1,17 @@
+node_modules/
+dist/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+!.vscode/settings.json
+*.swp
+*.swo
+
+# Test artifacts
+coverage/
+test-results/
+playwright-report/
