@@ -15,3 +15,6 @@ Thumbs.db
 coverage/
 test-results/
 playwright-report/
+
+# Storybook
+storybook-static/
