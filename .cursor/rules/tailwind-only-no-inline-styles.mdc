@@ -1,0 +1,51 @@
+---
+description: Enforce Tailwind usage and prohibit inline style attributes in UI components
+globs: "**/*.tsx,**/*.jsx"
+alwaysApply: false
+---
+
+# Tailwind Only — No Inline Styles
+
+Use **Tailwind CSS utility classes** for all styling. Do **not** use the `style` attribute (inline styles) in components.
+
+## Rules
+
+1. **Use Tailwind classes** for layout, spacing, colors, typography, borders, and responsive behavior.
+2. **Do not use `style={{ }}`** or the HTML `style` attribute. If you need a value Tailwind doesn’t expose (e.g. a one-off CSS variable), use a Tailwind arbitrary value or extend the theme instead of inline styles.
+3. **Prefer `className`** for all styling. Avoid importing separate CSS modules or global styles for component-level styling unless the rule explicitly allows it.
+
+## Examples
+
+```tsx
+// ❌ BAD — inline style
+<div style={{ marginTop: 16, color: '#333' }}>Content</div>
+
+// ✅ GOOD — Tailwind
+<div className="mt-4 text-gray-800">Content</div>
+```
+
+```tsx
+// ❌ BAD — style object
+<span style={{ fontSize: '0.875rem', fontWeight: 600 }}>Label</span>
+
+// ✅ GOOD — Tailwind
+<span className="text-sm font-semibold">Label</span>
+```
+
+```tsx
+// ❌ BAD — mixing style with className
+<button className="rounded" style={{ padding: '8px 16px' }}>Submit</button>
+
+// ✅ GOOD — all Tailwind
+<button className="rounded px-4 py-2">Submit</button>
+```
+
+## Exceptions
+
+- **Third-party components** that require a `style` prop for their API: pass through only when the library docs require it.
+- **Dynamic values** that cannot be expressed with Tailwind (e.g. `width: ${percent}%`): prefer Tailwind arbitrary values (e.g. `className={\`w-[${percent}%]\`}`) or a small utility in your Tailwind config; use inline `style` only as a last resort and add a short comment explaining why.
+
+## When Editing
+
+- Replace any new or existing `style` usage with equivalent Tailwind classes.
+- Prefer standard Tailwind tokens (e.g. `mt-4`, `text-sm`, `bg-primary`) over arbitrary values when possible.
