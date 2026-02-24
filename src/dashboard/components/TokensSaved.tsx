@@ -1,7 +1,7 @@
 import { computeCost } from "@/dashboard/cost/computeCost";
 import { toFiniteNonNegative } from "@/dashboard/cost/normalize";
 import type { ProviderId } from "@/dashboard/cost/types";
-import { formatCost, formatTokenCount } from "./CostDisplay";
+import { formatCost, formatTokenCount } from "@/dashboard/lib/format";
 
 /**
  * Tokens saved = naiveRagInputTokens − dcoInputTokens (input-only for MVP).
