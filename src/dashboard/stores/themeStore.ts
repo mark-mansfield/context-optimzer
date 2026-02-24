@@ -52,12 +52,7 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
   getPreference: () => ({ preference: get().preference, resolved: get().resolved }),
 
   setPreference(pref) {
-    try {
-      localStorage.setItem("dco-theme", pref);
-    } catch (e) {
-      // localStorage may be unavailable (e.g. private browsing restrictions)
-      if (import.meta.env.DEV) console.warn("[themeStore] Could not persist theme preference:", e);
-    }
+    localStorage.setItem("dco-theme", pref);
     const resolved = resolve(pref);
     applyToDOM(resolved);
     set({ preference: pref, resolved });
