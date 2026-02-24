@@ -61,6 +61,24 @@ describe("themeStore", () => {
     expect(mod.useThemeStore.getState().preference).toBe("dark");
   });
 
+  it("falls back to 'system' when localStorage contains an invalid value", async () => {
+    localStorage.setItem("dco-theme", "foo");
+    vi.resetModules();
+    mockMatchMedia();
+    const mod = await import("./themeStore");
+    expect(mod.useThemeStore.getState().preference).toBe("system");
+  });
+
+  it("falls back to 'system' when localStorage throws on read", async () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementationOnce(() => {
+      throw new Error("SecurityError");
+    });
+    vi.resetModules();
+    mockMatchMedia();
+    const mod = await import("./themeStore");
+    expect(mod.useThemeStore.getState().preference).toBe("system");
+  });
+
   it("resolves to 'light' when preference is 'system' and OS is light", () => {
     initTheme();
     expect(useThemeStore.getState().resolved).toBe("light");

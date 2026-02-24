@@ -29,8 +29,21 @@ function applyToDOM(resolved: ResolvedTheme) {
   el.style.colorScheme = resolved;
 }
 
-const storedPref =
-  (localStorage.getItem("dco-theme") as ThemePreference) ?? "system";
+const VALID_PREFS = new Set<string>(["system", "light", "dark"]);
+
+function getStoredPref(): ThemePreference {
+  try {
+    const raw = localStorage.getItem("dco-theme");
+    if (raw && VALID_PREFS.has(raw)) {
+      return raw as ThemePreference;
+    }
+  } catch {
+    // localStorage may be unavailable (e.g. private browsing restrictions)
+  }
+  return "system";
+}
+
+const storedPref = getStoredPref();
 
 export const useThemeStore = create<ThemeStore>((set, get) => ({
   preference: storedPref,
