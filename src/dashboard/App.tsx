@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getFeedback, submitFeedback } from "@/api/feedback";
+import { submitFeedback, type FeedbackVote } from "@/api/feedback";
 import { getCorrection, submitCorrection } from "@/api/correction";
 import { processQuery, type ProcessTrace } from "@/api/process";
 import { EditCorrection } from "./components/EditCorrection";
@@ -14,7 +14,7 @@ export function App() {
   const [selectedTraceId, setSelectedTraceId] = useState<string | null>(null);
   const [processLoading, setProcessLoading] = useState(false);
   const [processError, setProcessError] = useState<string | null>(null);
-  const [, setFeedbackVersion] = useState(0);
+  const [feedbackVotes, setFeedbackVotes] = useState<Record<string, FeedbackVote>>({});
 
   const selectedTrace = selectedTraceId
     ? traces.find((t) => t.trace_id === selectedTraceId) ?? null
@@ -108,14 +108,14 @@ export function App() {
               <div className="flex flex-wrap items-center gap-3 border-t border-border pt-4">
                 <FeedbackButtons
                   traceId={selectedTrace.trace_id}
-                  currentVote={getFeedback(selectedTrace.trace_id)?.vote ?? null}
+                  currentVote={feedbackVotes[selectedTrace.trace_id] ?? null}
                   onUp={async () => {
                     await submitFeedback(selectedTrace.trace_id, "up");
-                    setFeedbackVersion((v) => v + 1);
+                    setFeedbackVotes((prev) => ({ ...prev, [selectedTrace.trace_id]: "up" }));
                   }}
                   onDown={async () => {
                     await submitFeedback(selectedTrace.trace_id, "down");
-                    setFeedbackVersion((v) => v + 1);
+                    setFeedbackVotes((prev) => ({ ...prev, [selectedTrace.trace_id]: "down" }));
                   }}
                 />
                 <ExportGoldSet traces={traces} />
