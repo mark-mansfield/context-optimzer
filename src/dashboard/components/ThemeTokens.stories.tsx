@@ -20,7 +20,8 @@ function Swatch({ name, label }: { name: string; label: string }) {
   return (
     <div className="flex items-center gap-3 py-2">
       <div
-        className={`h-12 w-12 shrink-0 rounded-lg border border-border bg-(${name})`}
+        className="h-12 w-12 shrink-0 rounded-lg border border-border"
+        style={{ backgroundColor: `var(${name})` }}
       />
       <div>
         <div className="text-sm font-semibold text-text-primary">
