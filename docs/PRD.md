@@ -48,6 +48,16 @@ DCO sits between the user and the LLM, using **Hybrid Search**, **Semantic Reran
 
 ## 3. Core Features (The "Phases")
 
+### ⚪ Phase 0: Knowledge Base Ingestion
+
+- **Objective:** Populate the retrieval indexes (LanceDB + BM25) from a fixed corpus so queries can run against real content. For the demo, ingestion is **build-time only**; no runtime upload or multi-tenant ingestion.
+- **Requirements:**
+  - **Build-time automation:** An ingestion script runs as part of the build (e.g. `yarn build` or `yarn build:with-kb`). It reads from a configured source path (e.g. `content/` or `docs/knowledge-base/` in the repo).
+  - **Formats:** Parse and chunk **Markdown**, **JSON**, and **PDF** with a consistent chunking strategy (e.g. smart splitter that respects code blocks and headers).
+  - **Output:** Write embeddings to **LanceDB** and build the **BM25** (lexical) index; write to a fixed output path (e.g. `dist/data/` or `public/data/`) so the built app loads it at runtime.
+  - **Sanitization:** Strip HTML/script tags from ingested content (per Security & Governance). No runtime ingestion; single index per build.
+  - **IDE / agent access:** The knowledge-base source directory (e.g. `content/` or `docs/knowledge-base/`) **must not be read by the IDE agent**. Add it to `.cursorignore` so agent tools cannot read or index that content.
+
 ### 🟢 Phase 1: Hybrid Retrieval Engine
 
 - **Objective:** Combine the precision of keywords with the nuance of embeddings.
