@@ -21,13 +21,13 @@ export function ExportGoldSet({
       onExport(jsonl);
       return;
     }
-    const blob = new Blob([jsonl], { type: "application/jsonl" });
+    const blob = new Blob([jsonl], { type: "application/x-ndjson" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = `gold-set-${Date.now()}.jsonl`;
     a.click();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
   }
 
   return (

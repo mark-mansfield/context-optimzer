@@ -14,7 +14,7 @@ export function App() {
   const [selectedTraceId, setSelectedTraceId] = useState<string | null>(null);
   const [processLoading, setProcessLoading] = useState(false);
   const [processError, setProcessError] = useState<string | null>(null);
-  const [feedbackVersion, setFeedbackVersion] = useState(0);
+  const [, setFeedbackVersion] = useState(0);
 
   const selectedTrace = selectedTraceId
     ? traces.find((t) => t.trace_id === selectedTraceId) ?? null
