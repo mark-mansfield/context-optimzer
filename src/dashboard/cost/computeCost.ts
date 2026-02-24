@@ -9,7 +9,7 @@ import { toFiniteNonNegative } from "./normalize";
  * @param inputTokens - Number of input tokens.
  * @param outputTokens - Number of output tokens.
  * @param config - Optional pricing override; uses DEFAULT_PRICING when omitted.
- * @returns Cost in dollars. Returns 0 if provider is unknown or token values are invalid.
+ * @returns Cost in dollars, using non-negative finite token counts (invalid or negative values are treated as 0). Returns 0 if the provider is unknown.
  */
 export function computeCost(
   provider: ProviderId,
