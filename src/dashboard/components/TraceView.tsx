@@ -9,6 +9,8 @@ export type TraceViewStepId = "retrieval" | "rerank" | "response";
 /** Trace shape for TraceView: steps for Timeline and nodes for Node Inspector. */
 export interface TraceViewTrace extends TimelineTrace {
   nodes?: InspectorNode[];
+  /** Optional nodes to show when the Response step is selected (simulated response context). */
+  responseNodes?: InspectorNode[];
 }
 
 export interface TraceViewProps {
@@ -24,10 +26,13 @@ const DEFAULT_STEPS: TimelineStep[] = [
 ];
 
 /** Derives which nodes to show in Node Inspector for the given step. */
-function nodesForStep(stepId: TraceViewStepId, nodes: InspectorNode[] | undefined): InspectorNode[] {
-  if (!nodes?.length) return [];
-  if (stepId === "response") return [];
-  return nodes;
+function nodesForStep(
+  stepId: TraceViewStepId,
+  trace: TraceViewTrace | null | undefined
+): InspectorNode[] {
+  if (!trace) return [];
+  if (stepId === "response") return trace.responseNodes ?? [];
+  return trace.nodes ?? [];
 }
 
 export function TraceView({ trace, loading = false, error = null }: TraceViewProps) {
@@ -37,7 +42,7 @@ export function TraceView({ trace, loading = false, error = null }: TraceViewPro
   const timelineTrace: TimelineTrace | null = trace
     ? { traceId: trace.traceId, steps }
     : null;
-  const inspectorNodes = nodesForStep(selectedStep, trace?.nodes);
+  const inspectorNodes = nodesForStep(selectedStep, trace);
 
   return (
     <div className="flex min-w-0 flex-col gap-4">

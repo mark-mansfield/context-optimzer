@@ -25,6 +25,22 @@ const mockTrace: TraceViewTrace = {
       status: "pruned",
     },
   ],
+  responseNodes: [
+    {
+      id: "resp-1",
+      rawText: "Context chunk used for final answer generation.",
+      rerankedText: "Included in prompt to LLM.",
+      score: 0.88,
+      status: "kept",
+    },
+    {
+      id: "resp-2",
+      rawText: "Supporting passage for the response.",
+      rerankedText: "Supporting passage for the response.",
+      score: 0.75,
+      status: "kept",
+    },
+  ],
 };
 
 const meta = {

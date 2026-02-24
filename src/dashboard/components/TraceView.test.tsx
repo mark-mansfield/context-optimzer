@@ -39,12 +39,33 @@ describe("TraceView", () => {
     expect(screen.getByText("Reranked text")).toBeDefined();
   });
 
-  it("shows no nodes when Response step is selected", () => {
+  it("shows no nodes when Response step is selected and trace has no responseNodes", () => {
     render(<TraceView trace={mockTrace} />);
     const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
     expect(responseButton).toBeDefined();
     fireEvent.click(responseButton!);
     expect(screen.getByText("No nodes to display")).toBeDefined();
+  });
+
+  it("shows responseNodes when Response step is selected and trace has responseNodes", () => {
+    const traceWithResponseNodes = {
+      ...mockTrace,
+      responseNodes: [
+        {
+          id: "resp-1",
+          rawText: "Context used for answer.",
+          rerankedText: "Included in prompt.",
+          score: 0.9,
+          status: "kept" as const,
+        },
+      ],
+    };
+    render(<TraceView trace={traceWithResponseNodes} />);
+    const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
+    expect(responseButton).toBeDefined();
+    fireEvent.click(responseButton!);
+    expect(screen.getByText("Context used for answer.")).toBeDefined();
+    expect(screen.getByText("Included in prompt.")).toBeDefined();
   });
 
   it("passes loading to children", () => {
