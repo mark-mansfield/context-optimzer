@@ -96,14 +96,12 @@ export function processQuery(query: string): Promise<ProcessTrace> {
   };
   store.set(trace_id, trace);
 
-  if (import.meta.env.DEV) {
-    // Phase 3 + LLM: prompt = query + optimized context pack (kept chunks after rerank)
-    const optimizedContextPack = responseNodes.map((n) => n.rerankedText);
-    console.log("[Phase 3 + LLM] Prompt = query + Optimized Context Pack", {
-      query,
-      optimizedContextPack,
-    });
-  }
+  // TODO remove after phase 1,2,3 are implemented: Phase 3 + LLM: prompt = query + optimized context pack (kept chunks after rerank)
+  const optimizedContextPack = responseNodes.map((n) => n.rerankedText);
+  console.log("[Phase 3 + LLM] Prompt = query + Optimized Context Pack", {
+    query,
+    optimizedContextPack,
+  });
 
   return Promise.resolve(trace);
 }
