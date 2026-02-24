@@ -1,6 +1,6 @@
 # 🔵 Phase 4: Observability Dashboard
 
-**Description:** The "Transparent Brain" of the DCO ecosystem. This React-based interface visualizes the entire execution lifecycle of a query. It provides high-fidelity "traces" that allow developers to see how the system retrieved, reranked, and routed each request. It serves as the primary tool for debugging "Silent Failures" and managing the FinOps of agentic workflows.
+**Description:** The "Transparent Brain" of the DCO ecosystem. For user stories (run query, view trace, feedback, correction, export, theme), see [DASHBOARD_USER_STORIES.md](DASHBOARD_USER_STORIES.md). This React-based interface visualizes the entire execution lifecycle of a query. It provides high-fidelity "traces" that allow developers to see how the system retrieved, reranked, and routed each request. It serves as the primary tool for debugging "Silent Failures" and managing the FinOps of agentic workflows.
 
 ---
 
@@ -37,6 +37,16 @@ Code Quality: The dashboard includes "Storybook" components for all major UI sta
   - Develop a "Tokens Saved" visualizer comparing the DCO output vs. a standard Naive RAG approach.
 - **W4.3: Feedback & Dataset Loop:** \* Implement "Thumbs Up/Down" and "Edit Correction" features.
   - Build a "Export to Gold-Set" button to turn high-quality traces into future evaluation benchmarks.
+
+---
+
+## 🎮 Playable Dashboard (mock API, no LLM)
+
+To build out the frontend so you can run and explore the dashboard without a real backend or LLM, the following TODOs apply (see `docs/TODOS/`):
+
+- **TODO_15: Mock process / trace API** — In-memory API: submit a query and get back a trace (TraceView-shaped). Optional list/get for trace history. No LLM or external calls.
+- **TODO_16: Dashboard layout and query flow** — App layout with header (title + theme toggle), query input + Run button, trace list, and trace detail (TraceView). Run calls mock process; selecting a trace shows TraceView.
+- **TODO_17: Wire feedback, correction, and export on trace detail** — On the trace detail view, wire FeedbackButtons to the mock feedback API, EditCorrection to the mock correction API, and ExportGoldSet so the user can vote, correct, and export using existing mocks.
 
 ---
 
