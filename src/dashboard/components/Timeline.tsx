@@ -36,13 +36,7 @@ export function Timeline({
     return (
       <div
         role="alert"
-        style={{
-          padding: "1rem 1.25rem",
-          background: "var(--color-bg-surface)",
-          border: "1px solid var(--color-danger)",
-          borderRadius: "8px",
-          color: "var(--color-danger)",
-        }}
+        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -54,13 +48,7 @@ export function Timeline({
       <div
         role="status"
         aria-label="Loading trace"
-        style={{
-          padding: "1.5rem",
-          background: "var(--color-bg-surface)",
-          border: "1px solid var(--color-border)",
-          borderRadius: "8px",
-          color: "var(--color-text-muted)",
-        }}
+        className="rounded-lg border border-border bg-bg-surface p-6 text-text-muted"
       >
         Loading…
       </div>
@@ -71,45 +59,22 @@ export function Timeline({
   const isInteractive = typeof onStepSelect === "function";
 
   return (
-    <div
-      style={{
-        padding: "1rem 1.25rem",
-        background: "var(--color-bg-surface)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "8px",
-      }}
-    >
-      <ol
-        style={{
-          listStyle: "none",
-          margin: 0,
-          padding: 0,
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "0.5rem 1.5rem",
-        }}
-      >
+    <div className="rounded-lg border border-border bg-bg-surface px-5 py-4">
+      <ol className="flex list-none flex-wrap gap-x-6 gap-y-2 p-0 m-0">
         {steps.map((step, index) => {
           const isSelected = selectedStep === step.id;
           const content = (
             <>
               <span
-                style={{
-                  width: "1.5rem",
-                  height: "1.5rem",
-                  borderRadius: "50%",
-                  background: isSelected ? "var(--color-accent)" : "var(--color-bg-muted)",
-                  color: isSelected ? "var(--color-bg-primary)" : "var(--color-text-secondary)",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                }}
+                className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold ${
+                  isSelected
+                    ? "bg-accent text-bg-primary"
+                    : "bg-bg-muted text-text-secondary"
+                }`}
               >
                 {index + 1}
               </span>
-              <span style={{ color: "var(--color-text-secondary)", fontSize: "0.875rem" }}>
+              <span className="text-sm text-text-secondary">
                 {step.label}
               </span>
             </>
@@ -117,28 +82,13 @@ export function Timeline({
           return (
             <li
               key={step.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                color: "var(--color-text-primary)",
-              }}
+              className="flex items-center gap-2 text-text-primary"
             >
               {isInteractive ? (
                 <button
                   type="button"
                   onClick={() => onStepSelect?.(step.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    padding: "0.25rem 0",
-                    border: "none",
-                    background: "transparent",
-                    cursor: "pointer",
-                    color: "inherit",
-                    font: "inherit",
-                  }}
+                  className="flex cursor-pointer items-center gap-2 border-none bg-transparent p-1 font-inherit text-inherit"
                 >
                   {content}
                 </button>

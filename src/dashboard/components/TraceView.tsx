@@ -40,14 +40,7 @@ export function TraceView({ trace, loading = false, error = null }: TraceViewPro
   const inspectorNodes = nodesForStep(selectedStep, trace?.nodes);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        minWidth: 0,
-      }}
-    >
+    <div className="flex min-w-0 flex-col gap-4">
       <Timeline
         trace={timelineTrace}
         loading={loading}

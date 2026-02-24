@@ -18,41 +18,18 @@ const tokens = [
 function Swatch({ name, label }: { name: string; label: string }) {
   const isBg = name.startsWith("--color-bg") || name === "--color-border";
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "12px",
-        padding: "8px 0",
-      }}
-    >
+    <div className="flex items-center gap-3 py-2">
       <div
-        style={{
-          width: 48,
-          height: 48,
-          borderRadius: 8,
-          background: `var(${name})`,
-          border: "1px solid var(--color-border)",
-          flexShrink: 0,
-        }}
+        className={`h-12 w-12 shrink-0 rounded-lg border border-border bg-(${name})`}
       />
       <div>
-        <div
-          style={{
-            fontWeight: 600,
-            fontSize: 14,
-            color: "var(--color-text-primary)",
-          }}
-        >
+        <div className="text-sm font-semibold text-text-primary">
           {label}
         </div>
         <code
-          style={{
-            fontSize: 12,
-            color: isBg
-              ? "var(--color-text-secondary)"
-              : "var(--color-text-muted)",
-          }}
+          className={`text-xs ${
+            isBg ? "text-text-secondary" : "text-text-muted"
+          }`}
         >
           {name}
         </code>
@@ -63,17 +40,7 @@ function Swatch({ name, label }: { name: string; label: string }) {
 
 function TokenGrid() {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-        gap: "8px 32px",
-        padding: 24,
-        background: "var(--color-bg-primary)",
-        color: "var(--color-text-primary)",
-        borderRadius: 12,
-      }}
-    >
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-y-2 gap-x-8 rounded-xl bg-bg-primary px-6 py-6 text-text-primary">
       {tokens.map((t) => (
         <Swatch key={t.name} name={t.name} label={t.label} />
       ))}

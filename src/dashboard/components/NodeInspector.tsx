@@ -21,13 +21,7 @@ export function NodeInspector({
     return (
       <div
         role="alert"
-        style={{
-          padding: "1rem 1.25rem",
-          background: "var(--color-bg-surface)",
-          border: "1px solid var(--color-danger)",
-          borderRadius: "8px",
-          color: "var(--color-danger)",
-        }}
+        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -39,13 +33,7 @@ export function NodeInspector({
       <div
         role="status"
         aria-label="Loading nodes"
-        style={{
-          padding: "1.5rem",
-          background: "var(--color-bg-surface)",
-          border: "1px solid var(--color-border)",
-          borderRadius: "8px",
-          color: "var(--color-text-muted)",
-        }}
+        className="rounded-lg border border-border bg-bg-surface p-6 text-text-muted"
       >
         Loading…
       </div>
@@ -54,108 +42,53 @@ export function NodeInspector({
 
   if (nodes.length === 0) {
     return (
-      <div
-        style={{
-          padding: "1rem 1.25rem",
-          background: "var(--color-bg-surface)",
-          border: "1px solid var(--color-border)",
-          borderRadius: "8px",
-          color: "var(--color-text-muted)",
-        }}
-      >
+      <div className="rounded-lg border border-border bg-bg-surface px-5 py-4 text-text-muted">
         No nodes to display
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        padding: "1rem 1.25rem",
-        background: "var(--color-bg-surface)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "8px",
-      }}
-    >
+    <div className="flex flex-col gap-4 rounded-lg border border-border bg-bg-surface px-5 py-4">
       {nodes.map((node) => (
         <div
           key={node.id}
-          style={{
-            marginBottom: nodes.length > 1 ? "1rem" : 0,
-            padding: "0.75rem",
-            background: "var(--color-bg-muted)",
-            borderRadius: "6px",
-            borderLeft:
-              node.status === "kept"
-                ? "3px solid var(--color-success)"
-                : node.status === "pruned"
-                  ? "3px solid var(--color-danger)"
-                  : "3px solid var(--color-border)",
-          }}
+          className={`rounded-md border-l-[3px] bg-bg-muted p-3 ${
+            node.status === "kept"
+              ? "border-l-success"
+              : node.status === "pruned"
+                ? "border-l-danger"
+                : "border-l-border"
+          }`}
         >
-          <div style={{ marginBottom: "0.5rem" }}>
-            <span
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "var(--color-text-secondary)",
-                textTransform: "uppercase",
-              }}
-            >
+          <div className="mb-2">
+            <span className="text-xs font-semibold uppercase text-text-secondary">
               Raw
             </span>
-            <p
-              style={{
-                margin: "0.25rem 0 0",
-                fontSize: "0.875rem",
-                color: "var(--color-text-primary)",
-              }}
-            >
+            <p className="mt-1 text-sm text-text-primary">
               {node.rawText}
             </p>
           </div>
-          <div style={{ marginBottom: "0.5rem" }}>
-            <span
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                color: "var(--color-text-secondary)",
-                textTransform: "uppercase",
-              }}
-            >
+          <div className="mb-2">
+            <span className="text-xs font-semibold uppercase text-text-secondary">
               Reranked
             </span>
-            <p
-              style={{
-                margin: "0.25rem 0 0",
-                fontSize: "0.875rem",
-                color: "var(--color-text-primary)",
-              }}
-            >
+            <p className="mt-1 text-sm text-text-primary">
               {node.rerankedText}
             </p>
           </div>
           {(node.score !== undefined || node.status) && (
-            <div
-              style={{
-                marginTop: "0.5rem",
-                fontSize: "0.75rem",
-                color: "var(--color-text-secondary)",
-              }}
-            >
+            <div className="mt-2 text-xs text-text-secondary">
               {node.score !== undefined && (
-                <span style={{ marginRight: "0.75rem" }}>Score: {node.score}</span>
+                <span className="mr-3">Score: {node.score}</span>
               )}
               {node.status && (
                 <span
-                  style={{
-                    color:
-                      node.status === "kept"
-                        ? "var(--color-success)"
-                        : "var(--color-danger)",
-                  textTransform: "capitalize",
-                  fontWeight: 600,
-                }}
+                  className={`font-semibold capitalize ${
+                    node.status === "kept"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                 >
                   {node.status}
                 </span>

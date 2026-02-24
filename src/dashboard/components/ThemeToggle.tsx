@@ -8,19 +8,16 @@ export function ThemeToggle() {
   const isDark = resolved === "dark";
   const nextMode = isDark ? "light" : "dark";
   const label = isDark ? "Switch to light theme" : "Switch to dark theme";
-
-  return (
+  // Show icon for the theme we’re switching to (dark icon when light is selected, and vice versa)
+  const icon = nextMode === "dark" ? <Moon size={20} /> : <Sun size={20} />;
+ return (
     <button
       type="button"
       onClick={() => setPreference(nextMode)}
       aria-label={label}
-      className="inline-flex cursor-pointer items-center justify-center rounded-lg p-2 transition-colors hover:opacity-80"
-      style={{
-        background: "var(--color-bg-muted)",
-        color: "var(--color-text-primary)",
-      }}
+      className="inline-flex cursor-pointer items-center justify-center rounded-lg bg-bg-muted p-2 text-text-primary transition-colors hover:opacity-80"
     >
-      {isDark ? <Sun size={20} /> : <Moon size={20} />}
+      {icon}
     </button>
   );
 }

@@ -23,20 +23,20 @@ Implement a theme system that:
 
 ### Token set
 
-| Token | Purpose |
-|---|---|
-| `--color-bg-primary` | Page background |
-| `--color-bg-surface` | Cards, panels (Timeline, Node Inspector) |
-| `--color-bg-muted` | Subtle backgrounds (code blocks, pruned nodes) |
-| `--color-bg-elevated` | Header, floating elements |
-| `--color-border` | Panel / card borders |
-| `--color-text-primary` | Headings, body text |
-| `--color-text-secondary` | Labels, metadata, timestamps |
-| `--color-text-muted` | Disabled, placeholder text |
-| `--color-accent` | Primary action buttons, active timeline step |
-| `--color-success` | High relevance scores, "kept" nodes |
-| `--color-warning` | Mid-range scores, cost alerts |
-| `--color-danger` | Error states, pruned nodes, low scores |
+| Token                    | Purpose                                        |
+| ------------------------ | ---------------------------------------------- |
+| `--color-bg-primary`     | Page background                                |
+| `--color-bg-surface`     | Cards, panels (Timeline, Node Inspector)       |
+| `--color-bg-muted`       | Subtle backgrounds (code blocks, pruned nodes) |
+| `--color-bg-elevated`    | Header, floating elements                      |
+| `--color-border`         | Panel / card borders                           |
+| `--color-text-primary`   | Headings, body text                            |
+| `--color-text-secondary` | Labels, metadata, timestamps                   |
+| `--color-text-muted`     | Disabled, placeholder text                     |
+| `--color-accent`         | Primary action buttons, active timeline step   |
+| `--color-success`        | High relevance scores, "kept" nodes            |
+| `--color-warning`        | Mid-range scores, cost alerts                  |
+| `--color-danger`         | Error states, pruned nodes, low scores         |
 
 ### Zustand store shape
 

@@ -1,10 +1,9 @@
 import type { Decorator, Preview } from "@storybook/react";
 import React, { useEffect } from "react";
 import "../src/dashboard/index.css";
+import { useThemeStore } from "../src/dashboard/stores/themeStore";
 
-function resolveTheme(
-  value: string,
-): "light" | "dark" {
+function resolveTheme(value: string): "light" | "dark" {
   if (value === "dark") return "dark";
   if (value === "light") return "light";
   return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -13,23 +12,21 @@ function resolveTheme(
 }
 
 const withTheme: Decorator = (Story, context) => {
-  const theme = context.globals.theme ?? "system";
+  const theme = (context.globals.theme as string) ?? "system";
   const resolved = resolveTheme(theme);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", resolved === "dark");
     document.documentElement.style.colorScheme = resolved;
-  }, [resolved]);
+    // Sync Zustand store so ThemeToggle (and any theme-aware component) sees correct resolved/preference
+    useThemeStore.setState({
+      preference: theme as "system" | "light" | "dark",
+      resolved,
+    });
+  }, [resolved, theme]);
 
   return (
-    <div
-      style={{
-        background: "var(--color-bg-primary)",
-        color: "var(--color-text-primary)",
-        minHeight: "100%",
-        padding: 16,
-      }}
-    >
+    <div className="min-h-full bg-bg-primary p-4 text-text-primary">
       <Story />
     </div>
   );

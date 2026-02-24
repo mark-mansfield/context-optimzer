@@ -3,9 +3,13 @@ import { create } from "zustand";
 export type ThemePreference = "system" | "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 
-interface ThemeStore {
+export interface ThemeState {
   preference: ThemePreference;
   resolved: ResolvedTheme;
+}
+
+interface ThemeStore extends ThemeState {
+  getPreference: () => ThemeState;
   setPreference: (pref: ThemePreference) => void;
 }
 
@@ -25,11 +29,14 @@ function applyToDOM(resolved: ResolvedTheme) {
   el.style.colorScheme = resolved;
 }
 
-const storedPref = (localStorage.getItem("dco-theme") as ThemePreference) ?? "system";
+const storedPref =
+  (localStorage.getItem("dco-theme") as ThemePreference) ?? "system";
 
 export const useThemeStore = create<ThemeStore>((set, get) => ({
   preference: storedPref,
-  resolved: "light",
+  resolved: resolve(storedPref),
+
+  getPreference: () => ({ preference: get().preference, resolved: get().resolved }),
 
   setPreference(pref) {
     localStorage.setItem("dco-theme", pref);
