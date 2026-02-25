@@ -86,6 +86,9 @@ DCO sits between the user and the LLM, using **Hybrid Search**, **Semantic Reran
 - **Requirements:**
   - **Token Visualization:** Show "Tokens Saved" vs. "Tokens Sent."
   - **Trace Log:** Show the step-by-step logic (`Retrieval` -> `Rerank` -> `Route`).
+  - **UI reference:** Layout and components align with the design mockup ([UI reference](assets/ui-reference.png)).
+  - **Export to Gold-Set:** Allow exporting high-quality traces to a gold set for evaluation.
+  - **Corrected response UI:** Support for user corrections (e.g. textarea and "Save Correction") linked to the trace.
 
 ---
 
