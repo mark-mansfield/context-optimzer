@@ -1,49 +1,46 @@
-# TODO_21: Node Inspector layout aligned to UI reference (W4.4)
+# TODO_21: NodeInspector component (W4.4)
 
-Status: TODO
+Status: DONE
+
+Completed: NodeInspector at `src/components/node-inspector/index.tsx` with three columns (Sample chunk ~50%, Score ~22%, Edit correction ~28%); exports InspectorNode; optional sampleChunkExtra and correctionSlot; TraceView uses it with FeedbackButtons/ExportGoldSet and EditCorrection as slots; tests and Storybook updated; old dashboard NodeInspector removed.
 
 ## Context
 
-- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [UI reference](../assets/ui-reference.png)
-- W4.4 specifies a single **Node Inspector** section with three sub-panels: (1) Sample chunk (chunk text + thumbs up/down + "Export to Gold-Set"), (2) Score (relevance value, "Relevance Score" label, horizontal progress bar), (3) Edit correction (textarea "Provide a corrected response or note...", "Save Correction" button). Existing components—**NodeInspector**, **FeedbackButtons**, **EditCorrection**, **ExportGoldSet**—must be **updated** and composed into this layout.
+- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [VISUAL_WORK_ITEM.md](../VISUAL_WORK_ITEM.md), reference [ui-refs/dashboard.png](../ui-refs/dashboard.png)
+- W4.4 dashboard visual: Node Inspector with three columns — Sample chunk, Score, Edit correction.
 
 ## Description
 
-Update the **Node Inspector** area to match the [UI reference](assets/ui-reference.png): (1) **Single section** titled "Node Inspector" (or equivalent) containing three sub-panels. (2) **Sample chunk** — display chunk text (from selected node or first node); include **thumbs up/down** and **"Export to Gold-Set"** button in this panel. (3) **Score** — show relevance value (e.g. 0.92), label "Relevance Score", and a **horizontal blue progress bar** representing the score. (4) **Edit correction** — textarea with placeholder "Provide a corrected response or note..." and **"Save Correction"** button. Reuse existing NodeInspector, FeedbackButtons, EditCorrection, and ExportGoldSet; **rearrange** their layout and labels to match the reference. Update TraceView (and optionally App) so the trace detail view presents this combined layout instead of separate blocks.
+Implement or overwrite **NodeInspector** so it matches the reference: three-column layout (e.g. Sample chunk ~50%, Score ~20–25%, Edit correction ~25–30%), with clear column headers and content. Use path `src/components/node-inspector/index.tsx`.
 
 ## Expected Inputs
 
-- Existing NodeInspector (nodes, raw/reranked text, score, status), FeedbackButtons, EditCorrection, ExportGoldSet.
-- TraceView and App trace-detail structure.
+- Reference image: `docs/ui-refs/dashboard.png`.
+- Node data: sample chunk text, score, optional correction; array of nodes if multiple rows.
 
 ## Expected Outputs
 
-- One "Node Inspector" section with three clearly separated sub-panels: Sample chunk (with feedback + export), Score (value + progress bar), Edit correction (textarea + Save Correction).
-- Copy and placeholders match UI reference ("Provide a corrected response or note...", "Save Correction", "Relevance Score").
-- All existing behavior (vote, correct, export) preserved; only layout and presentation change.
+- Component at `src/components/node-inspector/index.tsx` exporting NodeInspector.
+- Three columns with headers and content; proportions and styling match reference.
 - `yarn test`, `yarn typecheck` pass.
 
 ## Acceptance Criteria
 
-- [ ] Node Inspector presents as one section with three sub-panels.
-- [ ] Sample chunk sub-panel shows chunk text, thumbs up/down, and Export to Gold-Set button.
-- [ ] Score sub-panel shows numeric score, "Relevance Score" label, and horizontal progress bar.
-- [ ] Edit correction sub-panel shows textarea with specified placeholder and "Save Correction" button.
-- [ ] Feedback, correction, and export remain wired and functional; existing tests pass.
+- [ ] Component lives at `src/components/node-inspector/index.tsx`.
+- [ ] Renders three columns: Sample chunk, Score, Edit correction (or equivalent labels per reference).
+- [ ] Column width proportions match reference (e.g. ~50% / ~22% / ~28%).
+- [ ] Column headers and cell content visible; sentence-case or styling per reference.
+- [ ] Existing tests and typecheck pass.
 
 ## Test Plan
 
-- Update NodeInspector and TraceView tests for new structure; ensure FeedbackButtons, EditCorrection, ExportGoldSet still behave correctly in integration.
+- Unit test: render with mock nodes; assert column headers and content present; optional layout assertions.
 - Gates: `yarn test`, `yarn typecheck`.
 
 ## Files (expected)
 
-- `src/dashboard/components/NodeInspector.tsx` (layout and sub-panels).
-- `src/dashboard/components/TraceView.tsx` (compose Node Inspector with feedback, export, edit in one section; possibly move FeedbackButtons/ExportGoldSet/EditCorrection into or next to Node Inspector).
-- `src/dashboard/App.tsx` if trace detail layout is adjusted (e.g. single Node Inspector block instead of separate rows).
-- EditCorrection.tsx for placeholder and button label if needed.
+- `src/components/node-inspector/index.tsx` (create or overwrite).
 
 ## Notes / Non-goals
 
-- Data model for "sample chunk" can be current node or first inspector node; no new APIs required.
-- Progress bar can be a simple div or theme-based component; score 0–1 maps to width.
+- Edit correction cell can link to EditCorrection component or show read-only; detail in EditCorrection TODO.

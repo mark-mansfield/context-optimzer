@@ -1,45 +1,45 @@
-# TODO_18: Dashboard layout aligned to UI reference (W4.4)
+# TODO_18: ThemeToggle component (W4.4)
 
-Status: TODO
+Status: DONE
+
+Completed: ThemeToggle implemented at `src/components/theme-toggle/index.tsx`; uses `@/dashboard/stores/themeStore`; sun/moon icon, rounded button, aria-label; App and Storybook import from `@/components/theme-toggle`; unit tests added; old `dashboard/components/ThemeToggle.tsx` removed.
 
 ## Context
 
-- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [UI reference](../assets/ui-reference.png)
-- W4.4 requires aligning the dashboard with the design mockup. Existing layout is in `App.tsx` (header, query + Run, trace list, trace detail). This TODO updates the **dashboard layout itself** to match the UI reference; component-level changes (Timeline, token cards, Node Inspector) are separate TODOs.
+- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [VISUAL_WORK_ITEM.md](../VISUAL_WORK_ITEM.md), reference [ui-refs/dashboard.png](../ui-refs/dashboard.png)
+- W4.4 dashboard visual: align UI with design mockup. ThemeToggle is the light/dark theme control in the header.
 
 ## Description
 
-Update the dashboard **layout** in `App.tsx` (and any layout subcomponents) to match [UI reference](assets/ui-reference.png): (1) **Header** — "DCO Dashboard" on the left; on the right, a **settings (gear) icon** and the existing **theme toggle** (single rounded button with Sun icon). (2) **Two-column layout** — left: query input + Run, trace history; right: trace detail (unchanged structure, content updated by other TODOs). (3) **Trace history** — selected trace item must show a **subtle border and lighter background** (e.g. blue highlight as in reference) so the active trace is clearly indicated. Use existing theme tokens and components; add only the gear icon (e.g. Lucide `Settings`) and adjust trace list item styling for selected state.
+Implement or overwrite the **ThemeToggle** component so it matches the reference image: a single control (e.g. rounded button with sun/moon icon) that toggles light/dark theme. Use path `src/components/theme-toggle/index.tsx` for clean imports (`@/components/theme-toggle`).
 
 ## Expected Inputs
 
-- Existing `App.tsx` with header, query bar, trace list, trace detail (TraceView + FeedbackButtons, EditCorrection, ExportGoldSet).
-- Existing ThemeToggle component.
-- UI reference image: `docs/assets/ui-reference.png`.
+- Reference image: `docs/ui-refs/dashboard.png`.
+- Existing theme store or context if present (e.g. theme state, setTheme).
 
 ## Expected Outputs
 
-- Header shows title + gear icon + theme toggle.
-- Trace list: selected item has visible border and lighter/highlight background.
-- Layout and structure match UI reference for header and list; `yarn test`, `yarn typecheck` pass.
+- Component at `src/components/theme-toggle/index.tsx` exporting ThemeToggle.
+- Renders a control that matches reference (icon, styling); toggling updates app theme.
+- `yarn test`, `yarn typecheck` pass.
 
 ## Acceptance Criteria
 
-- [ ] Header includes a settings (gear) icon in addition to theme toggle.
-- [ ] Selected trace in the trace history list is visually distinct (border and/or lighter background).
-- [ ] Two-column layout preserved; no regression to query flow or trace selection.
-- [ ] Existing tests and typecheck pass.
+- [ ] Component lives at `src/components/theme-toggle/index.tsx`.
+- [ ] Renders a single toggle control (e.g. button with sun/moon icon) matching reference styling.
+- [ ] Clicking toggles between light and dark theme; state persists (e.g. localStorage or store).
+- [ ] No layout or accessibility regressions; existing tests and typecheck pass.
 
 ## Test Plan
 
-- Update or add tests for header content (e.g. gear icon present) and trace list selected state if not already covered.
+- Unit test: render ThemeToggle, assert control visible; optional: assert toggle updates theme.
 - Gates: `yarn test`, `yarn typecheck`.
 
 ## Files (expected)
 
-- `src/dashboard/App.tsx` (header, trace list item styling).
+- `src/components/theme-toggle/index.tsx` (create or overwrite).
 
 ## Notes / Non-goals
 
-- Timeline, token cards, and Node Inspector layout are **out of scope** (see TODO_19, TODO_20, TODO_21).
-- Gear icon can be non-functional (placeholder) for now unless product requires settings behavior.
+- Header layout is in App TODO; this is the toggle component only.

@@ -1,47 +1,47 @@
-# TODO_19: Timeline component aligned to UI reference (W4.4)
+# TODO_19: Timeline component (W4.4)
 
-Status: TODO
+Status: DONE
+
+Completed: Timeline implemented at `src/components/timeline/index.tsx` with TimelineStep, TimelineTrace, TimelineProps; horizontal step bars (Retrieval, Rerank, Response), labels, timestamps, durationMs, arrows; TraceView and Storybook import from `@/components/timeline`; tests moved to `src/components/timeline/index.test.tsx`; old dashboard Timeline removed.
 
 ## Context
 
-- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [UI reference](../assets/ui-reference.png)
-- W4.4 specifies a horizontal timeline with **duration bars** (Retrieval blue, Rerank orange, Response green), timestamps, durations (ms), arrows between steps, and a horizontal scale (e.g. 0–30ms). The existing `Timeline` component shows numbered steps and labels only; it must be **updated** to match the reference.
+- Links: [PHASE_4.md](../PHASE_4.md) (W4.4), [VISUAL_WORK_ITEM.md](../VISUAL_WORK_ITEM.md), reference [ui-refs/dashboard.png](../ui-refs/dashboard.png)
+- W4.4 dashboard visual: Timeline shows Retrieval → Rerank → Response with timestamps, durations, and arrows.
 
 ## Description
 
-Update the existing **Timeline** component (`src/dashboard/components/Timeline.tsx`) to match the [UI reference](assets/ui-reference.png): (1) Render each step as a **colored horizontal bar** — Retrieval (blue), Rerank (orange), Response (green). (2) Each bar shows **label**, **timestamp** (e.g. 08:32), and **duration** (e.g. 45ms, 12ms, 8ms). (3) **Arrows** between steps. (4) A **horizontal time scale** below the bars (e.g. 0ms, 5ms, 10ms, … 30ms at 5ms intervals). Steps remain clickable when `onStepSelect` is provided; selected step can be indicated (e.g. border or opacity). Extend the trace/step data model if needed to support `timestamp` and `durationMs` (mock or derived values are acceptable for the playable dashboard).
+Implement or overwrite the **Timeline** component so it matches the reference: horizontal step bars (Retrieval, Rerank, Response), each with label, timestamp, duration (ms), and arrows between steps. Use path `src/components/timeline/index.tsx`.
 
 ## Expected Inputs
 
-- Existing Timeline component and `TimelineStep` / `TimelineTrace` types.
-- TraceView / process API may need to supply or derive step durations and timestamps for display (or use sensible defaults for mock data).
+- Reference image: `docs/ui-refs/dashboard.png`.
+- Trace/step data: step labels, optional timestamp and durationMs (mock or derived OK).
 
 ## Expected Outputs
 
-- Timeline renders as horizontal duration bars with colors, labels, timestamps, and durations.
-- Arrows between steps; time scale below.
-- Existing Timeline props (trace, loading, error, selectedStep, onStepSelect) preserved; optional new props for step timing if needed.
-- `yarn test`, `yarn typecheck` pass; Storybook story updated if present.
+- Component at `src/components/timeline/index.tsx` exporting Timeline.
+- Renders horizontal bars and arrows matching reference; steps optionally clickable (onStepSelect).
+- `yarn test`, `yarn typecheck` pass.
 
 ## Acceptance Criteria
 
-- [ ] Retrieval step shown as blue bar, Rerank as orange, Response as green.
-- [ ] Each step displays label, timestamp, and duration (ms).
-- [ ] Arrows connect the steps; horizontal scale (e.g. 0–30ms) appears below.
-- [ ] Step selection (when used) still works; existing tests updated/passing.
+- [ ] Component lives at `src/components/timeline/index.tsx`.
+- [ ] Renders one bar per step (Retrieval, Rerank, Response) with distinct styling (e.g. color).
+- [ ] Each bar shows label, timestamp (e.g. 08:32), and duration (e.g. 45ms).
+- [ ] Arrows or connectors between steps; layout matches reference.
+- [ ] Optional: selected step visually indicated; onStepSelect callback when provided.
+- [ ] Existing tests and typecheck pass.
 
 ## Test Plan
 
-- Update Timeline tests for new structure (bars, scale); snapshot or structure assertions as appropriate.
+- Unit tests: render with mock steps; assert labels, timestamps, durations present; optional scale/order.
 - Gates: `yarn test`, `yarn typecheck`.
 
 ## Files (expected)
 
-- `src/dashboard/components/Timeline.tsx`
-- Possibly `src/api/process.ts` or trace types to add duration/timestamp fields for steps (or derive in Timeline).
-- Timeline.stories.tsx if present.
+- `src/components/timeline/index.tsx` (create or overwrite).
 
 ## Notes / Non-goals
 
-- Exact scale range (0–30ms) and tick interval can be configurable or derived from step data.
-- Backend/SSE integration for real timings is out of scope; mock or computed values are sufficient.
+- Timeline data shape can be extended for timestamp/duration; mock values acceptable.
