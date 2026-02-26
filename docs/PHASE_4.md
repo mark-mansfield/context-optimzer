@@ -31,11 +31,11 @@ Code Quality: The dashboard includes "Storybook" components for all major UI sta
 
 ## Visual work items
 
-Work items listed here are **visual**: they require the [UI reference workflow](../.cursor/rules/ui-reference-workflow.mdc) and **visual acceptance criteria** (spec-first, region-per-TODO, reference image for specific items, iterate until match). When generating TODOs from this phase, use the [visual-TODO-from-phase](../.cursor/rules/visual-todo-from-phase.mdc) rule so each generated TODO includes the correct spec link, reference image region, and visual acceptance criteria.
+Work items listed here are **visual**: match the dashboard to the reference image and gate with a Playwright snapshot test.
 
-| Work item | Reference (spec + image) | Notes |
-|-----------|---------------------------|--------|
-| **W4.4** | [dashboard](ui-refs/dashboard/) — [spec.md](ui-refs/dashboard/spec.md), [reference.png](ui-refs/dashboard/reference.png) | Split into region TODOs per spec's "Image regions by TODO" table; add final full-screen visual gate (pixel-perfect + snapshot test). |
+| Work item | Reference | Notes |
+|-----------|-----------|--------|
+| **W4.4** | [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) — checklist; reference: [ui-refs/dashboard.png](ui-refs/dashboard.png) | Follow workflow: components table → generate granular TODOs → implement. Keep [e2e visual test](../e2e/dashboard-visual.spec.ts). See [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). |
 
 ---
 
@@ -47,7 +47,7 @@ Work items listed here are **visual**: they require the [UI reference workflow](
   - Develop a "Tokens Saved" visualizer comparing the DCO output vs. a standard Naive RAG approach.
 - **W4.3: Feedback & Dataset Loop:** \* Implement "Thumbs Up/Down" and "Edit Correction" features.
   - Build a "Export to Gold-Set" button to turn high-quality traces into future evaluation benchmarks.
-- **W4.4 (visual):** UI alignment with design mockup. Reference: [dashboard](ui-refs/dashboard/) ([spec](ui-refs/dashboard/spec.md), [reference.png](ui-refs/dashboard/reference.png)). Adopt **visual acceptance criteria** per [ui-reference-workflow](../.cursor/rules/ui-reference-workflow.mdc). Implementation: one TODO per region in the [spec's "Image regions by TODO" table](ui-refs/dashboard/spec.md) — (1) Header + left sidebar, (2) Trace Timeline, (3) Token metrics cards, (4) Node Inspector, (5) Full-screen visual gate (pixel-perfect + Playwright snapshot test). Generate via [visual-todo-from-phase](../.cursor/rules/visual-todo-from-phase.mdc); see `docs/TODOS/` for current TODOs.
+- **W4.4 (visual):** UI alignment with design mockup. Use [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) (reference image [ui-refs/dashboard.png](ui-refs/dashboard.png)): components table → generate granular TODOs → implement; keep [Playwright visual test](../e2e/dashboard-visual.spec.ts); run/update per [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). See `docs/TODOS/` for current TODOs.
 
 ---
 
