@@ -29,7 +29,7 @@ export function NodeInspector({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -41,7 +41,7 @@ export function NodeInspector({
       <div
         role="status"
         aria-label="Loading nodes"
-        className="rounded-lg border border-border bg-bg-surface p-6 text-text-muted"
+        className="rounded-md border border-border bg-bg-surface p-6 text-text-muted"
       >
         Loading…
       </div>
@@ -54,8 +54,8 @@ export function NodeInspector({
   const relevanceScore = firstNode?.score ?? 0;
 
   return (
-    <div className="flex min-w-0 gap-4">
-      <div className="min-w-0 flex-[0.5] rounded-lg border border-border bg-bg-muted p-3">
+    <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-[1fr_0.4fr]">
+      <div className="min-w-0 rounded-md border border-border bg-bg-muted p-3">
         <h4 className="mb-2 text-xs font-semibold text-text-secondary">Sample chunk</h4>
         <p className="text-sm text-text-primary">{sampleChunkText}</p>
         {sampleChunkExtra != null && (
@@ -63,7 +63,7 @@ export function NodeInspector({
         )}
       </div>
 
-      <div className="min-w-0 flex-[0.22] rounded-lg border border-border bg-bg-muted p-3">
+      <div className="min-w-0 rounded-md border border-border bg-bg-muted p-3">
         <h4 className="mb-1 text-xs font-semibold text-text-secondary">Score</h4>
         <p className="text-2xl font-bold text-accent">{relevanceScore.toFixed(2)}</p>
         <p className="text-xs text-text-muted">Relevance Score</p>
@@ -77,7 +77,7 @@ export function NodeInspector({
         </div>
       </div>
 
-      <div className="min-w-0 flex-[0.28] rounded-lg border border-border bg-bg-muted p-3">
+      <div className="min-w-0 col-span-1 rounded-md border border-border bg-bg-muted p-3 md:col-span-2">
         <h4 className="mb-2 text-xs font-semibold text-text-secondary">
           Edit correction
         </h4>
