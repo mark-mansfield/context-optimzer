@@ -28,7 +28,7 @@ export function TokensSaved({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -40,7 +40,7 @@ export function TokensSaved({
       <div
         role="status"
         aria-label="Loading comparison"
-        className="rounded-lg border border-border bg-bg-surface px-5 py-4 text-text-muted"
+        className="rounded-md border border-border bg-bg-surface px-5 py-4 text-text-muted"
       >
         Loading…
       </div>
@@ -56,7 +56,7 @@ export function TokensSaved({
       : null;
 
   return (
-    <div className="rounded-lg border border-border bg-bg-surface px-5 py-4 text-sm text-text-primary">
+    <div className="rounded-md border border-border bg-bg-surface px-5 py-4 text-sm text-text-primary">
       <div className="mb-2">
         <span className="text-text-secondary">DCO input: </span>
         {formatTokenCount(dco)}

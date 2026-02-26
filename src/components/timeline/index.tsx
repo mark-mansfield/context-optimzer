@@ -58,7 +58,7 @@ export function Timeline({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -70,7 +70,7 @@ export function Timeline({
       <div
         role="status"
         aria-label="Loading trace"
-        className="rounded-lg border border-border bg-bg-surface p-6 text-text-muted"
+        className="rounded-md border border-border bg-bg-surface p-6 text-text-muted"
       >
         Loading…
       </div>
@@ -84,10 +84,9 @@ export function Timeline({
     durationMs: s.durationMs ?? DEFAULT_STEPS[i]?.durationMs ?? 0,
   }));
   const isInteractive = typeof onStepSelect === "function";
-  const totalMs = stepsWithTiming.reduce((sum, s) => sum + (s.durationMs ?? 0), 0) || 65;
 
   return (
-    <div className="rounded-lg border border-border bg-bg-surface px-5 py-4">
+    <div className="rounded-md border border-border bg-bg-surface px-5 py-4">
       <h3 className="mb-3 text-sm font-semibold text-text-primary">Trace Timeline</h3>
 
       <div className="flex w-full items-stretch gap-1">
@@ -130,25 +129,28 @@ export function Timeline({
         })}
       </div>
 
-      <div className="mt-3">
-        <div className="flex h-2 overflow-hidden rounded bg-bg-muted">
-          {stepsWithTiming.map((step) => {
-            const pct = totalMs > 0 ? ((step.durationMs ?? 0) / totalMs) * 100 : 0;
-            return (
+      <div className="mt-3 flex w-full gap-1">
+        {stepsWithTiming.map((step, index) => {
+          const colorClass = STEP_BAR_COLORS[step.id] ?? "bg-bg-muted";
+          return (
+            <span key={step.id} className="flex min-w-0 flex-1 items-center gap-1">
               <div
-                key={step.id}
-                className={`${STEP_BAR_COLORS[step.id] ?? "bg-bg-muted"}`}
-                style={{ width: `${pct}%` }}
+                className={`h-2 min-w-0 flex-1 overflow-hidden rounded ${colorClass}`}
                 title={`${step.label} ${step.durationMs}ms`}
               />
-            );
-          })}
-        </div>
-        <div className="mt-1 flex justify-between text-xs text-text-muted">
-          {TIME_SCALE.map((t) => (
-            <span key={t}>{t === 0 ? "0" : `${t}ms`}</span>
-          ))}
-        </div>
+              {index < stepsWithTiming.length - 1 && (
+                <span className="shrink-0 px-0.5 text-text-muted" aria-hidden>
+                  →
+                </span>
+              )}
+            </span>
+          );
+        })}
+      </div>
+      <div className="mt-1 flex justify-between text-xs text-text-muted">
+        {TIME_SCALE.map((t) => (
+          <span key={t}>{t === 0 ? "0" : `${t}ms`}</span>
+        ))}
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ export function EditCorrection({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-3 py-2 text-sm text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-3 py-2 text-sm text-danger"
       >
         {error}
       </div>
@@ -49,7 +49,7 @@ export function EditCorrection({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2 rounded-lg border border-border bg-bg-surface p-3"
+      className="flex flex-col gap-2 rounded-md border border-border bg-bg-surface p-3"
       aria-label={`Edit correction for trace ${traceId}`}
     >
       <label htmlFor="edit-correction-textarea" className="text-sm font-medium text-text-primary">

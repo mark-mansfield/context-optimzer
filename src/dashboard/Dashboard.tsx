@@ -43,34 +43,10 @@ export function Dashboard() {
 
       <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
         <section className="flex flex-col gap-2 md:w-80 md:flex-shrink-0">
-          <div className="flex flex-col gap-2">
-            <input
-              type="text"
-              value={queryInput}
-              onChange={(e) => setQueryInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleRun()}
-              placeholder="Enter a query..."
-              className="min-w-0 rounded-lg border border-border bg-bg-surface px-3 py-2 text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              aria-label="Query input"
-            />
-            <button
-              type="button"
-              onClick={handleRun}
-              disabled={processLoading || !queryInput.trim()}
-              className="rounded-lg bg-accent px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
-            >
-              {processLoading ? "…" : "Run"}
-            </button>
-          </div>
-          {processError && (
-            <p role="alert" className="text-sm text-danger">
-              {processError}
-            </p>
-          )}
           <h2 className="text-sm font-medium text-text-primary">Trace history</h2>
-          <ul className="flex flex-col gap-1 overflow-y-auto rounded-lg border border-border bg-bg-surface p-2">
+          <ul className="flex flex-col gap-1 overflow-y-auto rounded-md border border-border bg-bg-surface p-2">
             {traces.length === 0 && (
-              <li className="py-2 text-sm text-text-muted">No traces yet. Run a query above.</li>
+              <li className="py-2 text-sm text-text-muted">No traces yet. Run a query to get started.</li>
             )}
             {traces.map((t) => (
               <li key={t.trace_id}>
@@ -94,6 +70,40 @@ export function Dashboard() {
         </section>
 
         <section className="flex min-w-0 flex-1 flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-base font-semibold text-text-primary">Run a new trace</h2>
+            <p className="text-sm text-text-muted">
+              Enter a question to run the pipeline and inspect retrieval, reranking, and response.
+            </p>
+          </div>
+          <label htmlFor="dashboard-query-input" className="sr-only">
+            Query input
+          </label>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
+            <input
+              id="dashboard-query-input"
+              type="text"
+              value={queryInput}
+              onChange={(e) => setQueryInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleRun()}
+              placeholder="Enter a query..."
+              className="min-w-0 flex-1 rounded-md border border-border bg-bg-surface px-3 py-2 text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              aria-label="Query input"
+            />
+            <button
+              type="button"
+              onClick={handleRun}
+              disabled={processLoading || !queryInput.trim()}
+              className="rounded-md bg-accent px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50 sm:shrink-0"
+            >
+              {processLoading ? "…" : "Run"}
+            </button>
+          </div>
+          {processError && (
+            <p role="alert" className="text-sm text-danger">
+              {processError}
+            </p>
+          )}
           {selectedTrace ? (
             <TraceView
               trace={{
@@ -130,7 +140,7 @@ export function Dashboard() {
               }}
             />
           ) : (
-            <div className="rounded-lg border border-border bg-bg-surface p-6 text-text-muted">
+            <div className="rounded-md border border-border bg-bg-surface p-6 text-text-muted">
               Select a trace from the list or run a new query to see the trace view.
             </div>
           )}

@@ -19,7 +19,7 @@ export function TokenMetricsCards({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -31,7 +31,7 @@ export function TokenMetricsCards({
       <div
         role="status"
         aria-label="Loading token metrics"
-        className="flex gap-4 rounded-lg border border-border bg-bg-surface p-5 text-text-muted"
+        className="flex gap-4 rounded-md border border-border bg-bg-surface p-5 text-text-muted"
       >
         Loading…
       </div>
@@ -40,7 +40,7 @@ export function TokenMetricsCards({
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="rounded-lg border border-border bg-bg-surface px-5 py-4 shadow-sm">
+      <div className="rounded-md border border-border bg-bg-surface px-5 py-4 shadow-sm">
         <div className="flex items-center gap-2 text-text-primary">
           <Database className="h-5 w-5 text-accent" aria-hidden />
           <span className="text-sm font-semibold">Tokens Saved</span>
@@ -48,7 +48,7 @@ export function TokenMetricsCards({
         <p className="mt-2 text-2xl font-bold text-text-primary">{tokensSaved}</p>
         <p className="text-xs text-text-muted">vs. previous run</p>
       </div>
-      <div className="rounded-lg border border-border bg-bg-surface px-5 py-4 shadow-sm">
+      <div className="rounded-md border border-border bg-bg-surface px-5 py-4 shadow-sm">
         <div className="flex items-center gap-2 text-text-primary">
           <ArrowLeftRight className="h-5 w-5 text-accent" aria-hidden />
           <span className="text-sm font-semibold">Tokens Sent</span>

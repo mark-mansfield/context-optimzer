@@ -23,7 +23,7 @@ export function FeedbackButtons({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-3 py-2 text-sm text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-3 py-2 text-sm text-danger"
       >
         {error}
       </div>
@@ -35,7 +35,7 @@ export function FeedbackButtons({
       <div
         role="status"
         aria-label="Loading feedback"
-        className="flex items-center gap-2 rounded-lg border border-border bg-bg-surface px-3 py-2 text-sm text-text-muted"
+        className="flex items-center gap-2 rounded-md border border-border bg-bg-surface px-3 py-2 text-sm text-text-muted"
       >
         Loading…
       </div>
@@ -47,7 +47,7 @@ export function FeedbackButtons({
 
   return (
     <div
-      className="flex items-center gap-1 rounded-lg border border-border bg-bg-surface px-2 py-1"
+      className="flex items-center gap-1 rounded-md border border-border bg-bg-surface px-2 py-1"
       aria-label={`Feedback for trace ${traceId}`}
     >
       <button

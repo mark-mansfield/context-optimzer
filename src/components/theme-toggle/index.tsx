@@ -15,7 +15,7 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setPreference(nextMode)}
       aria-label={label}
-      className="inline-flex cursor-pointer items-center justify-center rounded-lg bg-bg-muted p-2 text-text-primary transition-colors hover:opacity-80"
+      className="inline-flex cursor-pointer items-center justify-center rounded-md bg-bg-muted p-2 text-text-primary transition-colors hover:opacity-80"
     >
       {icon}
     </button>

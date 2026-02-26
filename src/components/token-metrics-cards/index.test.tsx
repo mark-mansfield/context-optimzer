@@ -30,7 +30,7 @@ describe("TokenMetricsCards", () => {
     const grid = container.querySelector(".grid");
     expect(grid).toBeDefined();
     expect(grid?.classList.contains("sm:grid-cols-2")).toBe(true);
-    const cards = container.querySelectorAll(".rounded-lg.border");
+    const cards = container.querySelectorAll(".rounded-md.border");
     expect(cards.length).toBe(2);
   });
 });

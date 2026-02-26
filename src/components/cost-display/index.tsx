@@ -30,7 +30,7 @@ export function CostDisplay({
     return (
       <div
         role="alert"
-        className="rounded-lg border border-danger bg-bg-surface px-5 py-4 text-danger"
+        className="rounded-md border border-danger bg-bg-surface px-5 py-4 text-danger"
       >
         {error}
       </div>
@@ -42,7 +42,7 @@ export function CostDisplay({
       <div
         role="status"
         aria-label="Loading cost"
-        className="rounded-lg border border-border bg-bg-surface px-5 py-4 text-text-muted"
+        className="rounded-md border border-border bg-bg-surface px-5 py-4 text-text-muted"
       >
         Loading…
       </div>
@@ -61,7 +61,7 @@ export function CostDisplay({
       : "Unknown";
 
   return (
-    <div className="rounded-lg border border-border bg-bg-surface px-5 py-4 text-sm text-text-primary">
+    <div className="rounded-md border border-border bg-bg-surface px-5 py-4 text-sm text-text-primary">
       <span className="font-semibold">{label}</span>
       {" · "}
       Input: {formatTokenCount(inT)}

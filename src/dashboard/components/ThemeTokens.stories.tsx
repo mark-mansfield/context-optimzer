@@ -20,7 +20,7 @@ function Swatch({ name, label }: { name: string; label: string }) {
   return (
     <div className="flex items-center gap-3 py-2">
       <div
-        className="h-12 w-12 shrink-0 rounded-lg border border-border"
+        className="h-12 w-12 shrink-0 rounded-md border border-border"
         // style tag needed for this to work in Storybook and is the only 
         // exception to the cursor rules that we should not use style tags in our code
         style={{ backgroundColor: `var(${name})` }}

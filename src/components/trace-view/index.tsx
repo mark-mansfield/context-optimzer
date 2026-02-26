@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CircleHelp } from "lucide-react";
 import type { FeedbackVote } from "@/api/feedback";
 import type { ProviderId } from "@/dashboard/cost/types";
 import type { TraceForExport } from "@/dashboard/goldSet/types";
@@ -112,7 +113,6 @@ export function TraceView({
 
   return (
     <div className="flex min-w-0 flex-col gap-4">
-      <h2 className="text-base font-semibold text-text-primary">Trace detail panel</h2>
       <Timeline
         trace={timelineTrace}
         loading={loading}
@@ -150,8 +150,32 @@ export function TraceView({
         />
       )}
 
-      <section className="flex flex-col gap-4 rounded-lg border border-border bg-bg-surface px-5 py-4">
-        <h3 className="text-sm font-semibold text-text-primary">Node Inspector</h3>
+      <section className="flex flex-col gap-4 rounded-md border border-border bg-bg-surface px-5 py-4">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-semibold text-text-primary">Node Inspector</h3>
+          <p className="flex items-center gap-1.5 text-xs text-text-muted">
+            <span>
+              Sample chunk, relevance score, and edit correction for the selected step.
+            </span>
+            <span className="group relative shrink-0">
+              <button
+                type="button"
+                className="rounded p-0.5 text-text-muted transition-colors hover:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 focus:ring-offset-bg-surface"
+                aria-label="What is the Node Inspector?"
+                aria-describedby="node-inspector-tooltip"
+              >
+                <CircleHelp size={14} strokeWidth={2} />
+              </button>
+              <span
+                id="node-inspector-tooltip"
+                role="tooltip"
+                className="pointer-events-none absolute left-1/2 top-full z-10 mt-1.5 w-56 -translate-x-1/2 rounded-md border border-border bg-bg-surface px-2.5 py-2 text-left text-xs font-normal text-text-primary shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100"
+              >
+                Shows the retrieved context for the selected step: a sample chunk, its relevance score, and the edit-correction field. Change the timeline step above to see different data.
+              </span>
+            </span>
+          </p>
+        </div>
         <NodeInspector
           nodes={inspectorNodes}
           loading={loading}
