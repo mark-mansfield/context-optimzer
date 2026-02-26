@@ -4,6 +4,8 @@
  * For dashboard playability without backend.
  */
 
+import type { ProviderId } from "@/dashboard/cost/types";
+
 export interface ProcessTraceNode {
   id: string;
   rawText: string;
@@ -28,6 +30,20 @@ export interface ProcessTrace {
   nodes?: ProcessTraceNode[];
   /** Simulated nodes shown when the Response step is selected in the timeline. */
   responseNodes?: ProcessTraceNode[];
+  /** Tokens saved vs previous run (for token metrics cards). */
+  tokensSaved?: number;
+  /** Total tokens in prompt / sent (for token metrics cards). */
+  tokensSent?: number;
+  /** Provider used for this trace (for cost display). */
+  provider?: ProviderId;
+  /** Input token count (for cost display). */
+  inputTokens?: number;
+  /** Output token count (for cost display). */
+  outputTokens?: number;
+  /** Cost in USD when precomputed (optional). */
+  cost?: number;
+  /** Naive RAG input token count (for TokensSaved comparison: saved = naiveRagInputTokens - dcoInputTokens). */
+  naiveRagInputTokens?: number;
 }
 
 const DEFAULT_STEPS: ProcessTraceStep[] = [
@@ -41,7 +57,8 @@ function makeMockNodes(): ProcessTraceNode[] {
     {
       id: "node-1",
       rawText: "Retrieved passage from the index.",
-      rerankedText: "Trimmed context sent to the LLM after rerank.",
+      rerankedText:
+        "The refund policy allows customers to request a full refund within 30 days of purchase for unused products. For digital goods, refunds are handled on a case-by-case basis. Please contact support for assistance.",
       score: 0.92,
       status: "kept",
     },
@@ -93,6 +110,12 @@ export function processQuery(query: string): Promise<ProcessTrace> {
     steps: [...DEFAULT_STEPS],
     nodes,
     responseNodes,
+    tokensSaved: 145,
+    tokensSent: 320,
+    provider: "groq",
+    inputTokens: 320,
+    outputTokens: 150,
+    naiveRagInputTokens: 800,
   };
   store.set(trace_id, trace);
 
