@@ -34,7 +34,7 @@ export function ExportGoldSet({
     <button
       type="button"
       onClick={handleClick}
-      className="rounded bg-accent px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+      className="rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
       aria-label="Export to Gold-Set"
     >
       Export to Gold-Set
