@@ -7,14 +7,14 @@ beforeEach(cleanup);
 
 const mockNodes: InspectorNode[] = [
   {
-    id: "node-1",
+    id: "refund-policy.md:0",
     rawText: "Raw context from retrieval",
     rerankedText: "Reranked context after Phase 2",
     score: 0.92,
     status: "kept",
   },
   {
-    id: "node-2",
+    id: "shipping-faq.md:2",
     rawText: "Another raw chunk",
     rerankedText: "Another reranked chunk",
     score: 0.3,
@@ -23,11 +23,10 @@ const mockNodes: InspectorNode[] = [
 ];
 
 describe("NodeInspector", () => {
-  it("renders Sample chunk, Score, and Edit correction column headers and content", () => {
+  it("renders Context chunk and Score column headers and content", () => {
     render(<NodeInspector nodes={mockNodes} />);
-    expect(screen.getByText("Sample chunk")).toBeDefined();
+    expect(screen.getByText("Context chunk")).toBeDefined();
     expect(screen.getByText("Score")).toBeDefined();
-    expect(screen.getByText("Edit correction")).toBeDefined();
     expect(screen.getByText("Reranked context after Phase 2")).toBeDefined();
     expect(screen.getByText("0.92")).toBeDefined();
   });
@@ -55,5 +54,15 @@ describe("NodeInspector", () => {
   it("shows No nodes to display when nodes is empty", () => {
     render(<NodeInspector nodes={[]} />);
     expect(screen.getByText("No nodes to display.")).toBeDefined();
+  });
+
+  it("renders all nodes in the list", () => {
+    render(<NodeInspector nodes={mockNodes} />);
+    expect(screen.getByText("Reranked context after Phase 2")).toBeDefined();
+    expect(screen.getByText("Another reranked chunk")).toBeDefined();
+    expect(screen.getByText("0.92")).toBeDefined();
+    expect(screen.getByText("0.30")).toBeDefined();
+    expect(screen.getByText("kept")).toBeDefined();
+    expect(screen.getByText("pruned")).toBeDefined();
   });
 });

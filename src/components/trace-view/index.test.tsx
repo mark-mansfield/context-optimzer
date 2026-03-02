@@ -27,7 +27,7 @@ describe("TraceView", () => {
     render(<TraceView trace={mockTrace} />);
     expect(screen.getByText("Retrieval")).toBeDefined();
     expect(screen.getByText("Node Inspector")).toBeDefined();
-    expect(screen.getByText("Sample chunk")).toBeDefined();
+    expect(screen.getByText("Context chunk")).toBeDefined();
     expect(screen.getByText("Reranked text")).toBeDefined();
   });
 
@@ -37,6 +37,21 @@ describe("TraceView", () => {
     expect(rerankButton).toBeDefined();
     fireEvent.click(rerankButton!);
     expect(screen.getByText("Reranked text")).toBeDefined();
+  });
+
+  it("shows LLM Response panel when Response step is selected and trace has a response", () => {
+    const traceWithResponse = { ...mockTrace, response: "The capital of France is Paris." };
+    render(<TraceView trace={traceWithResponse} />);
+    const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
+    fireEvent.click(responseButton!);
+    expect(screen.getByText("LLM Response")).toBeDefined();
+    expect(screen.getByText("The capital of France is Paris.")).toBeDefined();
+  });
+
+  it("does not show LLM Response panel when Retrieval step is selected", () => {
+    const traceWithResponse = { ...mockTrace, response: "The capital of France is Paris." };
+    render(<TraceView trace={traceWithResponse} />);
+    expect(screen.queryByText("LLM Response")).toBeNull();
   });
 
   it("shows no nodes message when Response step is selected and trace has no responseNodes", () => {
@@ -52,7 +67,7 @@ describe("TraceView", () => {
       ...mockTrace,
       responseNodes: [
         {
-          id: "resp-1",
+          id: "refund-policy.md:0",
           rawText: "Context used for answer.",
           rerankedText: "Included in prompt.",
           score: 0.9,
