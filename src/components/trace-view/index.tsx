@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CircleHelp } from "lucide-react";
+import { CircleHelp, X } from "lucide-react";
 import type { FeedbackVote } from "@/api/feedback";
 import type { ProviderId } from "@/dashboard/cost/types";
 import type { TraceForExport } from "@/dashboard/goldSet/types";
@@ -21,6 +21,8 @@ export interface TraceViewTrace extends TimelineTrace {
   nodes?: InspectorNode[];
   /** Optional nodes to show when the Response step is selected (simulated response context). */
   responseNodes?: InspectorNode[];
+  /** The LLM response text shown in the Response step panel. */
+  response?: string;
   /** Optional token metrics for TokenMetricsCards. */
   tokensSaved?: number;
   tokensSent?: number;
@@ -76,6 +78,7 @@ export function TraceView({
   onSubmitCorrection,
 }: TraceViewProps) {
   const [selectedStep, setSelectedStep] = useState<TraceViewStepId>("retrieval");
+  const [correctionOpen, setCorrectionOpen] = useState(false);
 
   const steps = trace?.steps?.length ? trace.steps : DEFAULT_STEPS;
   const timelineTrace: TimelineTrace | null = trace
@@ -83,31 +86,16 @@ export function TraceView({
     : null;
   const inspectorNodes = nodesForStep(selectedStep, trace);
 
-  const sampleChunkExtra = (
-    <>
-      {traceId != null && onFeedbackUp != null && onFeedbackDown != null && (
-        <FeedbackButtons
-          traceId={traceId}
-          currentVote={currentVote ?? null}
-          onUp={onFeedbackUp}
-          onDown={onFeedbackDown}
-        />
-      )}
-      {tracesForExport != null && tracesForExport.length > 0 && (
-        <ExportGoldSet traces={tracesForExport} />
-      )}
-    </>
-  );
-
-  const correctionSlot =
+  const sampleChunkExtra =
+    selectedStep === "response" &&
     traceId != null &&
-    initialCorrectionResponse != null &&
-    onSubmitCorrection != null ? (
-      <EditCorrection
-        key={traceId}
+    onFeedbackUp != null &&
+    onFeedbackDown != null ? (
+      <FeedbackButtons
         traceId={traceId}
-        initialResponse={initialCorrectionResponse}
-        onSubmit={onSubmitCorrection}
+        currentVote={currentVote ?? null}
+        onUp={onFeedbackUp}
+        onDown={onFeedbackDown}
       />
     ) : undefined;
 
@@ -120,6 +108,30 @@ export function TraceView({
         selectedStep={selectedStep}
         onStepSelect={(stepId) => setSelectedStep(stepId as TraceViewStepId)}
       />
+
+      {selectedStep === "response" && trace?.response != null && (
+        <section className="flex flex-col gap-3 rounded-md border border-border bg-bg-surface px-5 py-4">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-sm font-semibold text-text-primary">LLM Response</h3>
+            <div className="flex shrink-0 items-center gap-2">
+              {tracesForExport != null && tracesForExport.length > 0 && (
+                <ExportGoldSet traces={tracesForExport} />
+              )}
+              {traceId != null && initialCorrectionResponse != null && onSubmitCorrection != null && (
+                <button
+                  type="button"
+                  onClick={() => setCorrectionOpen(true)}
+                  className="rounded-md border border-border bg-bg-muted px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-bg-elevated"
+                >
+                  Correct response
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="text-sm text-text-primary whitespace-pre-wrap">{trace.response}</p>
+        </section>
+      )}
+
       <TokenMetricsCards
         tokensSaved={trace?.tokensSaved}
         tokensSent={trace?.tokensSent}
@@ -148,6 +160,39 @@ export function TraceView({
           loading={loading}
           error={error}
         />
+      )}
+
+      {correctionOpen && traceId != null && initialCorrectionResponse != null && onSubmitCorrection != null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Edit correction"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={(e) => { if (e.target === e.currentTarget) setCorrectionOpen(false); }}
+        >
+          <div className="flex w-full max-w-lg flex-col gap-4 rounded-lg border border-border bg-bg-surface p-6 shadow-xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-text-primary">Correct response</h2>
+              <button
+                type="button"
+                onClick={() => setCorrectionOpen(false)}
+                aria-label="Close"
+                className="rounded p-1 text-text-muted transition-colors hover:text-text-primary"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <EditCorrection
+              key={traceId}
+              traceId={traceId}
+              initialResponse={initialCorrectionResponse}
+              onSubmit={async (id, text) => {
+                await onSubmitCorrection(id, text);
+                setCorrectionOpen(false);
+              }}
+            />
+          </div>
+        </div>
       )}
 
       <section className="flex flex-col gap-4 rounded-md border border-border bg-bg-surface px-5 py-4">
@@ -181,7 +226,6 @@ export function TraceView({
           loading={loading}
           error={error}
           sampleChunkExtra={sampleChunkExtra}
-          correctionSlot={correctionSlot}
         />
       </section>
     </div>

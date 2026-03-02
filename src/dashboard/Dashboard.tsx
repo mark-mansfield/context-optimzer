@@ -94,7 +94,7 @@ export function Dashboard() {
               type="button"
               onClick={handleRun}
               disabled={processLoading || !queryInput.trim()}
-              className="rounded-md bg-accent px-4 py-2.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50 sm:shrink-0"
+              className="rounded-md border border-border bg-bg-muted px-4 py-2.5 font-medium text-text-primary transition-colors hover:bg-bg-elevated disabled:opacity-50 sm:shrink-0"
             >
               {processLoading ? "…" : "Run"}
             </button>
@@ -111,6 +111,7 @@ export function Dashboard() {
                 steps: selectedTrace.steps,
                 nodes: selectedTrace.nodes,
                 responseNodes: selectedTrace.responseNodes,
+                response: selectedTrace.response,
                 tokensSaved: selectedTrace.tokensSaved,
                 tokensSent: selectedTrace.tokensSent,
                 provider: selectedTrace.provider,
