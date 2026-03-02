@@ -5,14 +5,14 @@ import { NodeInspector } from "@/components/node-inspector";
 
 const mockNodes: InspectorNode[] = [
   {
-    id: "node-1",
+    id: "refund-policy.md:0",
     rawText: "Initial retrieval returned this passage from the index.",
     rerankedText: "After reranking, this is the trimmed context sent to the LLM.",
     score: 0.94,
     status: "kept",
   },
   {
-    id: "node-2",
+    id: "shipping-faq.md:2",
     rawText: "A second chunk that was retrieved but scored low.",
     rerankedText: "A second chunk that was retrieved but scored low.",
     score: 0.28,

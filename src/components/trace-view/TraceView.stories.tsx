@@ -11,14 +11,14 @@ const mockTrace: TraceViewTrace = {
   ],
   nodes: [
     {
-      id: "node-1",
+      id: "refund-policy.md:0",
       rawText: "Retrieved passage from the index.",
       rerankedText: "Trimmed context sent to the LLM after rerank.",
       score: 0.92,
       status: "kept",
     },
     {
-      id: "node-2",
+      id: "shipping-faq.md:2",
       rawText: "Low-scoring chunk.",
       rerankedText: "Low-scoring chunk.",
       score: 0.25,
@@ -27,14 +27,14 @@ const mockTrace: TraceViewTrace = {
   ],
   responseNodes: [
     {
-      id: "resp-1",
+      id: "refund-policy.md:0",
       rawText: "Context chunk used for final answer generation.",
       rerankedText: "Included in prompt to LLM.",
       score: 0.88,
       status: "kept",
     },
     {
-      id: "resp-2",
+      id: "returns-guide.md:1",
       rawText: "Supporting passage for the response.",
       rerankedText: "Supporting passage for the response.",
       score: 0.75,

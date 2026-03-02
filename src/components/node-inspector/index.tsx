@@ -12,10 +12,8 @@ export interface NodeInspectorProps {
   nodes?: InspectorNode[];
   loading?: boolean;
   error?: string | null;
-  /** Optional content below the sample chunk in the first column (e.g. FeedbackButtons, ExportGoldSet). */
+  /** Optional content below the first chunk (e.g. FeedbackButtons). */
   sampleChunkExtra?: ReactNode;
-  /** Optional content for the Edit correction column (e.g. EditCorrection component). */
-  correctionSlot?: ReactNode;
 }
 
 export function NodeInspector({
@@ -23,7 +21,6 @@ export function NodeInspector({
   loading = false,
   error = null,
   sampleChunkExtra,
-  correctionSlot,
 }: NodeInspectorProps) {
   if (error) {
     return (
@@ -48,41 +45,79 @@ export function NodeInspector({
     );
   }
 
-  const firstNode = nodes[0];
-  const sampleChunkText =
-    firstNode?.rerankedText ?? firstNode?.rawText ?? "No nodes to display.";
-  const relevanceScore = firstNode?.score ?? 0;
+  if (nodes.length === 0) {
+    return (
+      <div className="rounded-md border border-border bg-bg-muted p-6 text-center text-sm text-text-muted">
+        No nodes to display.
+      </div>
+    );
+  }
 
   return (
-    <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-[1fr_0.4fr]">
-      <div className="min-w-0 rounded-md border border-border bg-bg-muted p-3">
-        <h4 className="mb-2 text-xs font-semibold text-text-secondary">Sample chunk</h4>
-        <p className="text-sm text-text-primary">{sampleChunkText}</p>
-        {sampleChunkExtra != null && (
-          <div className="mt-3 flex flex-wrap items-center gap-3">{sampleChunkExtra}</div>
-        )}
-      </div>
-
-      <div className="min-w-0 rounded-md border border-border bg-bg-muted p-3">
-        <h4 className="mb-1 text-xs font-semibold text-text-secondary">Score</h4>
-        <p className="text-2xl font-bold text-accent">{relevanceScore.toFixed(2)}</p>
-        <p className="text-xs text-text-muted">Relevance Score</p>
-        <div className="mt-2 h-2 overflow-hidden rounded bg-bg-primary">
-          <div
-            className="h-full bg-accent"
-            style={{
-              width: `${Math.min(100, Math.max(0, relevanceScore * 100))}%`,
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="min-w-0 col-span-1 rounded-md border border-border bg-bg-muted p-3 md:col-span-2">
-        <h4 className="mb-2 text-xs font-semibold text-text-secondary">
-          Edit correction
-        </h4>
-        {correctionSlot ?? <p className="text-sm text-text-muted">—</p>}
-      </div>
+    <div className="min-w-0 overflow-x-auto">
+      <table className="w-full min-w-[400px] border-collapse text-left">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="pb-2 pr-3 text-xs font-semibold text-text-secondary">
+              Context chunk
+            </th>
+            <th className="w-[22%] max-w-[140px] pb-2 text-xs font-semibold text-text-secondary">
+              Score
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {nodes.map((node, index) => {
+            const text =
+              node.rerankedText ?? node.rawText ?? "";
+            const score = node.score ?? 0;
+            const isKept = node.status === "kept";
+            const rowBorder = isKept
+              ? "border-l-4 border-l-success"
+              : "border-l-4 border-l-danger";
+            return (
+              <tr
+                key={node.id}
+                className={`border-b border-border ${rowBorder}`}
+              >
+                <td className="py-3 pr-3 align-top">
+                  <div className="min-w-0">
+                    <p className="text-sm text-text-primary line-clamp-3">
+                      {text || "—"}
+                    </p>
+                    {index === 0 && sampleChunkExtra != null && (
+                      <div className="mt-2 flex flex-wrap items-center gap-3">
+                        {sampleChunkExtra}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td className="py-3 pr-3 align-top">
+                  <p className="text-lg font-bold text-accent">
+                    {score.toFixed(2)}
+                  </p>
+                  <p className="text-xs text-text-muted">Relevance</p>
+                  <div className="mt-1 h-2 overflow-hidden rounded bg-bg-primary">
+                    <div
+                      className={`h-full ${isKept ? "bg-success" : "bg-danger"}`}
+                      style={{
+                        width: `${Math.min(100, Math.max(0, score * 100))}%`,
+                      }}
+                    />
+                  </div>
+                  {node.status != null && (
+                    <span
+                      className={`mt-1 inline-block text-xs font-medium ${isKept ? "text-success" : "text-danger"}`}
+                    >
+                      {node.status}
+                    </span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
