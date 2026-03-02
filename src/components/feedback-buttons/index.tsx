@@ -47,7 +47,7 @@ export function FeedbackButtons({
 
   return (
     <div
-      className="flex items-center gap-1 rounded-md border border-border bg-bg-surface px-2 py-1"
+      className="flex items-center gap-0.5 rounded bg-bg-surface px-1 py-0.5"
       aria-label={`Feedback for trace ${traceId}`}
     >
       <button
@@ -55,22 +55,22 @@ export function FeedbackButtons({
         aria-label="Thumbs up"
         aria-pressed={isUp}
         onClick={onUp}
-        className={`rounded p-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent ${
+        className={`rounded p-1 transition-colors focus:outline-none focus:ring-1 focus:ring-accent ${
           isUp ? "bg-bg-muted text-success" : "text-text-secondary hover:text-text-primary hover:bg-bg-muted"
         }`}
       >
-        <ThumbsUp className="h-5 w-5" aria-hidden />
+        <ThumbsUp className="h-4 w-4" aria-hidden />
       </button>
       <button
         type="button"
         aria-label="Thumbs down"
         aria-pressed={isDown}
         onClick={onDown}
-        className={`rounded p-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-accent ${
+        className={`rounded p-1 transition-colors focus:outline-none focus:ring-1 focus:ring-accent ${
           isDown ? "bg-bg-muted text-danger" : "text-text-secondary hover:text-text-primary hover:bg-bg-muted"
         }`}
       >
-        <ThumbsDown className="h-5 w-5" aria-hidden />
+        <ThumbsDown className="h-4 w-4" aria-hidden />
       </button>
     </div>
   );

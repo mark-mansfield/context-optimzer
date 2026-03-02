@@ -86,19 +86,6 @@ export function TraceView({
     : null;
   const inspectorNodes = nodesForStep(selectedStep, trace);
 
-  const sampleChunkExtra =
-    selectedStep === "response" &&
-    traceId != null &&
-    onFeedbackUp != null &&
-    onFeedbackDown != null ? (
-      <FeedbackButtons
-        traceId={traceId}
-        currentVote={currentVote ?? null}
-        onUp={onFeedbackUp}
-        onDown={onFeedbackDown}
-      />
-    ) : undefined;
-
   return (
     <div className="flex min-w-0 flex-col gap-4">
       <Timeline
@@ -112,7 +99,17 @@ export function TraceView({
       {selectedStep === "response" && trace?.response != null && (
         <section className="flex flex-col gap-3 rounded-md border border-border bg-bg-surface px-5 py-4">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-sm font-semibold text-text-primary">LLM Response</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-text-primary">LLM Response</h3>
+              {traceId != null && onFeedbackUp != null && onFeedbackDown != null && (
+                <FeedbackButtons
+                  traceId={traceId}
+                  currentVote={currentVote ?? null}
+                  onUp={onFeedbackUp}
+                  onDown={onFeedbackDown}
+                />
+              )}
+            </div>
             <div className="flex shrink-0 items-center gap-2">
               {tracesForExport != null && tracesForExport.length > 0 && (
                 <ExportGoldSet traces={tracesForExport} />
@@ -225,7 +222,6 @@ export function TraceView({
           nodes={inspectorNodes}
           loading={loading}
           error={error}
-          sampleChunkExtra={sampleChunkExtra}
         />
       </section>
     </div>
