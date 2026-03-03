@@ -1,6 +1,6 @@
 # TODO_30: Model badge in trace list (Option D)
 
-Status: TODO
+Status: DONE — Added ModelBadge component (compact pill from model or provider); Dashboard trace list shows badge per trace; Dashboard passes routing fields to TraceView; unit and App tests added.
 
 ## Context
 
@@ -25,10 +25,10 @@ Add a **model badge** (pill or short label) to each item in the **trace list** (
 
 ## Acceptance Criteria
 
-- [ ] Trace list displays a model badge per trace when data is available.
-- [ ] Badge does not break layout or accessibility (focus, contrast, screen readers).
-- [ ] Existing tests and typecheck pass; optional visual snapshot update per project policy.
-- [ ] No breaking changes to trace list behavior (selection, key, etc.).
+- [x] Trace list displays a model badge per trace when data is available.
+- [x] Badge does not break layout or accessibility (focus, contrast, screen readers).
+- [x] Existing tests and typecheck pass; optional visual snapshot update per project policy.
+- [x] No breaking changes to trace list behavior (selection, key, etc.).
 
 ## Test Plan
 
