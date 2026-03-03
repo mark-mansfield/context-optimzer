@@ -6,6 +6,7 @@ import { ModelBadge } from "@/components/model-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TraceView } from "@/components/trace-view";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function Dashboard() {
   const [queryInput, setQueryInput] = useState("");
@@ -44,9 +45,10 @@ export function Dashboard() {
       </header>
 
       <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
-        <section className="flex flex-col gap-2 md:w-80 md:shrink-0">
+        <section className="flex min-h-0 flex-col gap-2 md:w-80 md:shrink-0">
+          <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto rounded-md border border-border bg-bg-surface p-2">
           <h2 className="text-sm font-medium text-text-primary">Trace history</h2>
-          <ul className="flex flex-col gap-1 overflow-y-auto rounded-md border border-border bg-bg-surface p-2">
+          <ul className="flex flex-col gap-1">
             {traces.length === 0 && (
               <li className="py-2 text-sm text-text-muted">No traces yet. Run a query to get started.</li>
             )}
@@ -70,9 +72,10 @@ export function Dashboard() {
               </li>
             ))}
           </ul>
+          </div>
         </section>
 
-        <section className="flex min-w-0 flex-1 flex-col gap-4">
+        <section className="flex min-w-0 flex-1 p-8 flex-col gap-4">
           <div className="flex flex-col gap-1">
             <h2 className="text-base font-semibold text-text-primary">Run a new query</h2>
             <p className="text-sm text-text-muted">
@@ -83,14 +86,14 @@ export function Dashboard() {
             Query input
           </label>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-2">
-            <input
+            <Input
               id="dashboard-query-input"
               type="text"
               value={queryInput}
               onChange={(e) => setQueryInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleRun()}
               placeholder="Enter a query..."
-              className="min-w-0 max-w-md flex-1 rounded-md border border-border bg-bg-surface px-3 py-2 text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="min-w-0 max-w-md flex-1"
               aria-label="Query input"
             />
             <Button
@@ -103,6 +106,7 @@ export function Dashboard() {
               {processLoading ? "…" : "Run"}
             </Button>
           </div>
+          <hr />
           {processError && (
             <p role="alert" className="text-sm text-danger">
               {processError}

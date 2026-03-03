@@ -9,6 +9,7 @@
     "test:pipeline": "vitest run --project pipeline",
     "test:ui": "vitest run --project ui",
     "test:e2e": "playwright test",
+    "test:e2e:update-snapshots": "playwright test --update-snapshots",
     "typecheck": "tsc --noEmit",
     "dev": "vite",
     "build": "vite build",
