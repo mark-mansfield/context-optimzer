@@ -73,7 +73,7 @@ export function Dashboard() {
 
         <section className="flex min-w-0 flex-1 flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <h2 className="text-base font-semibold text-text-primary">Run a new trace</h2>
+            <h2 className="text-base font-semibold text-text-primary">Run a new query</h2>
             <p className="text-sm text-text-muted">
               Enter a query to run the pipeline and inspect retrieval, reranking, and response.
             </p>
