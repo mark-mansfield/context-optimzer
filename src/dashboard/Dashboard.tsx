@@ -42,7 +42,7 @@ export function Dashboard() {
       </header>
 
       <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
-        <section className="flex flex-col gap-2 md:w-80 md:flex-shrink-0">
+        <section className="flex flex-col gap-2 md:w-80 md:shrink-0">
           <h2 className="text-sm font-medium text-text-primary">Trace history</h2>
           <ul className="flex flex-col gap-1 overflow-y-auto rounded-md border border-border bg-bg-surface p-2">
             {traces.length === 0 && (
@@ -59,7 +59,7 @@ export function Dashboard() {
                       : ""
                   }`}
                 >
-                  <span className="w-[20%] min-w-0 flex-shrink-0 truncate font-mono text-accent">
+                  <span className="w-[20%] min-w-0 shrink-0 truncate font-mono text-accent">
                     {t.trace_id.slice(-6)}
                   </span>
                   <span className="min-w-0 flex-1 truncate text-text-primary">{t.query}</span>
@@ -73,7 +73,7 @@ export function Dashboard() {
           <div className="flex flex-col gap-1">
             <h2 className="text-base font-semibold text-text-primary">Run a new trace</h2>
             <p className="text-sm text-text-muted">
-              Enter a question to run the pipeline and inspect retrieval, reranking, and response.
+              Enter a query to run the pipeline and inspect retrieval, reranking, and response.
             </p>
           </div>
           <label htmlFor="dashboard-query-input" className="sr-only">

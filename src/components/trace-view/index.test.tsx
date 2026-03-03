@@ -11,6 +11,9 @@ const mockTrace = {
     { id: "rerank", label: "Rerank" },
     { id: "response", label: "Response" },
   ],
+  retrievalNodes: [
+    { id: "r1", rawText: "Raw chunk from retrieval (no score yet).", rerankedText: "" },
+  ],
   nodes: [
     {
       id: "n1",
@@ -23,12 +26,12 @@ const mockTrace = {
 };
 
 describe("TraceView", () => {
-  it("composes Timeline and Node Inspector and shows sample chunk for default step (retrieval)", () => {
+  it("composes Timeline and Chunk Inspector and shows retrieval raw chunk for default step (retrieval)", () => {
     render(<TraceView trace={mockTrace} />);
     expect(screen.getByText("Retrieval")).toBeDefined();
-    expect(screen.getByText("Node Inspector")).toBeDefined();
+    expect(screen.getByText("Chunk Inspector")).toBeDefined();
     expect(screen.getByText("Context chunk")).toBeDefined();
-    expect(screen.getByText("Reranked text")).toBeDefined();
+    expect(screen.getByText("Raw chunk from retrieval (no score yet).")).toBeDefined();
   });
 
   it("shows sample chunk when Rerank step is selected", () => {
