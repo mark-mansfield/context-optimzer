@@ -1,6 +1,6 @@
 # TODO_29: Model routing card in trace detail (Option A)
 
-Status: TODO
+Status: DONE — Added ModelRoutingCard component; TraceView shows it when trace has model or routingClass; displays model, routing class (capitalized), confidence (as %), and reason when present. Unit tests for visibility and content.
 
 ## Context
 
@@ -25,10 +25,10 @@ Add a **Model routing** card/section in the **trace detail** view (next to or ne
 
 ## Acceptance Criteria
 
-- [ ] Trace detail shows model name, routing class, and when present: routing confidence and routing reason.
-- [ ] Component or section is accessible and readable (labels, contrast).
-- [ ] No layout break when routing data is missing; optional snapshot or visual test update if required by project.
-- [ ] Tests and typecheck pass.
+- [x] Trace detail shows model name, routing class, and when present: routing confidence and routing reason.
+- [x] Component or section is accessible and readable (labels, contrast).
+- [x] No layout break when routing data is missing; optional snapshot or visual test update if required by project.
+- [x] Tests and typecheck pass.
 
 ## Test Plan
 
