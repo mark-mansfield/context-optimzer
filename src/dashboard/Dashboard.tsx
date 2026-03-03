@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { History, LeafyGreen } from "lucide-react";
 import { submitFeedback, type FeedbackVote } from "@/api/feedback";
 import { getCorrection, submitCorrection } from "@/api/correction";
 import { processQuery, type ProcessTrace } from "@/api/process";
-import { ModelBadge } from "@/components/model-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TraceView } from "@/components/trace-view";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import type { TraceHistoryItem } from "@/dashboard/types";
+import { HistorySheetErrorBoundary } from "@/dashboard/HistorySheetErrorBoundary";
+
+const LazyHistorySheet = lazy(() =>
+  import("./HistorySheet").then((m) => ({ default: m.HistorySheet }))
+);
+
+function prefetchHistorySheet() {
+  void import("./HistorySheet");
+}
 
 export function Dashboard() {
   const [queryInput, setQueryInput] = useState("");
@@ -25,6 +28,15 @@ export function Dashboard() {
     Record<string, FeedbackVote>
   >({});
   const [historySheetOpen, setHistorySheetOpen] = useState(false);
+  const [hasOpenedHistory, setHasOpenedHistory] = useState(false);
+  const [historySheetRetryKey, setHistorySheetRetryKey] = useState(0);
+
+  const traceHistoryItems: TraceHistoryItem[] = traces.map((t) => ({
+    trace_id: t.trace_id,
+    query: t.query,
+    model: t.model,
+    provider: t.provider,
+  }));
 
   const selectedTrace = selectedTraceId
     ? traces.find((t) => t.trace_id === selectedTraceId) ?? null
@@ -96,7 +108,12 @@ export function Dashboard() {
             {traces.length > 0 && (
               <button
                 type="button"
-                onClick={() => setHistorySheetOpen(true)}
+                onClick={() => {
+                  setHasOpenedHistory(true);
+                  setHistorySheetOpen(true);
+                }}
+                onMouseEnter={prefetchHistorySheet}
+                onFocus={prefetchHistorySheet}
                 aria-label="Show trace history"
                 className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md bg-bg-muted p-2 text-text-primary transition-colors hover:opacity-80"
               >
@@ -162,40 +179,28 @@ export function Dashboard() {
         </div>
       </section>
 
-      <Sheet open={historySheetOpen} onOpenChange={setHistorySheetOpen}>
-        <SheetContent side="left" className="flex flex-col gap-2 bg-bg-surface border-border">
-          <SheetHeader>
-            <SheetTitle className="flex items-center gap-2 text-sm font-medium text-text-primary">
-              <History className="size-4 shrink-0" aria-hidden />
-              Trace history
-            </SheetTitle>
-          </SheetHeader>
-          <ul className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 pb-4">
-            {traces.map((t) => (
-              <li key={t.trace_id}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedTraceId(t.trace_id);
-                    setHistorySheetOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-2 rounded px-2 py-2 text-left text-sm transition-colors hover:bg-bg-muted ${
-                    selectedTraceId === t.trace_id
-                      ? "bg-accent/15 font-medium ring-1 ring-inset ring-accent/40"
-                      : ""
-                  }`}
-                >
-                  <span className="w-[20%] min-w-0 shrink-0 truncate font-mono text-accent">
-                    {t.trace_id.slice(-6)}
-                  </span>
-                  <span className="min-w-0 flex-1 truncate">{t.query}</span>
-                  <ModelBadge model={t.model} provider={t.provider} />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </SheetContent>
-      </Sheet>
+      {hasOpenedHistory && (
+        <HistorySheetErrorBoundary
+          onRetry={() => setHistorySheetRetryKey((k) => k + 1)}
+        >
+          <Suspense fallback={null}>
+            <LazyHistorySheet
+              key={historySheetRetryKey}
+              traces={traceHistoryItems}
+              selectedTraceId={selectedTraceId}
+              open={historySheetOpen}
+              onOpenChange={(open) => {
+                setHistorySheetOpen(open);
+                if (open) setHasOpenedHistory(true);
+              }}
+              onSelectTrace={(traceId) => {
+                setSelectedTraceId(traceId);
+                setHistorySheetOpen(false);
+              }}
+            />
+          </Suspense>
+        </HistorySheetErrorBoundary>
+      )}
     </main>
   );
 }

@@ -36,6 +36,7 @@ Work items listed here are **visual**: match the dashboard to the reference imag
 | Work item | Reference | Notes |
 |-----------|-----------|--------|
 | **W4.4** | [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) — checklist; reference: [ui-refs/dashboard.png](ui-refs/dashboard.png) | Follow workflow: components table → generate granular TODOs → implement. Keep [e2e visual test](../e2e/dashboard-visual.spec.ts). See [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). |
+| **W4.6** | TODO_32–TODO_34 | Trace history sheet: code-split on user intent (lazy when user opens or prefetches). Presentational UI with `TraceHistoryItem[]`; data in shell (GraphQL-ready). Suspense + error boundary with Retry. |
 
 ---
 
@@ -49,7 +50,8 @@ Work items listed here are **visual**: match the dashboard to the reference imag
   - Build a "Export to Gold-Set" button to turn high-quality traces into future evaluation benchmarks.
   - Gold-set export includes optional **model** and **routing_class** per trace for router evaluation and cost analysis (see TODO_31).
 - **W4.4 (visual):** UI alignment with design mockup. Use [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) (reference image [ui-refs/dashboard.png](ui-refs/dashboard.png)): components table → generate granular TODOs → implement; keep [Playwright visual test](../e2e/dashboard-visual.spec.ts); run/update per [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). See `docs/TODOS/` for current TODOs.
-- **W4.5: Model routing visibility (debugging):** \* Trace data model includes optional model and routing class (TODO_28). In the UI: (A) a "Model routing" card in the trace detail showing which model was used and the routing class (Informational / Reasoning); (D) a model badge in the trace list (sidebar) per trace for quick scanning. See TODO_29 (card), TODO_30 (badge).
+- **W4.5: Model routing visibility (visual)(debugging):** \* Trace data model includes optional model and routing class (TODO_28). In the UI: (A) a "Model routing" card in the trace detail showing which model was used and the routing class (Informational / Reasoning); (D) a model badge in the trace list (sidebar) per trace for quick scanning. See TODO_29 (card), TODO_30 (badge).
+- **W4.6 (visual): Trace history sheet (code-split):** \* Trace history is a left-side sheet that loads on user intent: lazy-loaded when the user opens it (or prefetched on History button hover/focus). Uses Suspense (minimal loading fallback) and an error boundary with Retry on chunk load failure. Trace list data is kept separate from the history UI (shell owns data, passes `TraceHistoryItem[]`); the list can later be supplied by GraphQL. See TODO_32–TODO_34.
 
 ---
 

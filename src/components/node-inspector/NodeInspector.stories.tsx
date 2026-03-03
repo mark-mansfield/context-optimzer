@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { EditCorrection } from "@/components/edit-correction";
 import type { InspectorNode } from "@/components/node-inspector";
 import { NodeInspector } from "@/components/node-inspector";
 
@@ -37,13 +36,6 @@ export const Default: Story = {
 export const WithEditCorrection: Story = {
   args: {
     nodes: mockNodes,
-    correctionSlot: (
-      <EditCorrection
-        traceId="trace-story"
-        initialResponse="The model returned this response. You can edit and save a correction."
-        onSubmit={async () => {}}
-      />
-    ),
   },
 };
 
