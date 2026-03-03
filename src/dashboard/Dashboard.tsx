@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { History, LeafyGreen } from "lucide-react";
 import { submitFeedback, type FeedbackVote } from "@/api/feedback";
 import { getCorrection, submitCorrection } from "@/api/correction";
 import { processQuery, type ProcessTrace } from "@/api/process";
@@ -7,6 +8,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { TraceView } from "@/components/trace-view";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export function Dashboard() {
   const [queryInput, setQueryInput] = useState("");
@@ -14,7 +21,10 @@ export function Dashboard() {
   const [selectedTraceId, setSelectedTraceId] = useState<string | null>(null);
   const [processLoading, setProcessLoading] = useState(false);
   const [processError, setProcessError] = useState<string | null>(null);
-  const [feedbackVotes, setFeedbackVotes] = useState<Record<string, FeedbackVote>>({});
+  const [feedbackVotes, setFeedbackVotes] = useState<
+    Record<string, FeedbackVote>
+  >({});
+  const [historySheetOpen, setHistorySheetOpen] = useState(false);
 
   const selectedTrace = selectedTraceId
     ? traces.find((t) => t.trace_id === selectedTraceId) ?? null
@@ -31,55 +41,33 @@ export function Dashboard() {
       setSelectedTraceId(trace.trace_id);
       setQueryInput("");
     } catch (e) {
-      setProcessError(e instanceof Error ? e.message : "Failed to process query");
+      setProcessError(
+        e instanceof Error ? e.message : "Failed to process query"
+      );
     } finally {
       setProcessLoading(false);
     }
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-bg-primary text-text-primary">
-      <header className="flex items-center justify-between border-b border-border bg-bg-surface px-4 py-3">
-        <h1 className="text-xl font-semibold">DCO Dashboard</h1>
-        <ThemeToggle />
-      </header>
-
-      <div className="flex flex-1 flex-col gap-4 p-4 md:flex-row">
-        <section className="flex min-h-0 flex-col gap-2 md:w-80 md:shrink-0">
-          <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto rounded-md border border-border bg-bg-surface p-2">
-          <h2 className="text-sm font-medium text-text-primary">Trace history</h2>
-          <ul className="flex flex-col gap-1">
-            {traces.length === 0 && (
-              <li className="py-2 text-sm text-text-muted">No traces yet. Run a query to get started.</li>
-            )}
-            {traces.map((t) => (
-              <li key={t.trace_id}>
-                <button
-                  type="button"
-                  onClick={() => setSelectedTraceId(t.trace_id)}
-                  className={`flex w-full items-center gap-2 rounded px-2 py-2 text-left text-sm transition-colors hover:bg-bg-muted ${
-                    selectedTraceId === t.trace_id
-                      ? "bg-accent/15 font-medium ring-1 ring-inset ring-accent/40"
-                      : ""
-                  }`}
-                >
-                  <span className="w-[20%] min-w-0 shrink-0 truncate font-mono text-accent">
-                    {t.trace_id.slice(-6)}
-                  </span>
-                  <span className="min-w-0 flex-1 truncate text-text-primary">{t.query}</span>
-                  <ModelBadge model={t.model} provider={t.provider} />
-                </button>
-              </li>
-            ))}
-          </ul>
-          </div>
-        </section>
-
-        <section className="flex min-w-0 flex-1 p-8 flex-col gap-4">
+    <main className="flex min-h-screen bg-bg-primary text-text-primary">
+      <section className="flex min-w-0 flex-1 flex-col gap-8">
+        <header className="flex w-full items-center p-4 justify-between border-b border-border bg-bg-surface">
+          <h1 className="flex items-center gap-2 text-xl font-semibold">
+            <LeafyGreen
+              className="size-6 shrink-0 text-amber-400"
+              aria-hidden
+            />
+            Context Hero
+          </h1>
+          <ThemeToggle />
+        </header>
+        <div className="p-8 flex flex-col gap-4 py-2">
           <div className="flex flex-col gap-1">
-            <h2 className="text-base font-semibold text-text-primary">Run a new query</h2>
+            <h2 className="text-base font-semibold">Run a new query</h2>
             <p className="text-sm text-text-muted">
-              Enter a query to run the pipeline and inspect retrieval, reranking, and response.
+              Enter a query to run the pipeline and inspect retrieval,
+              reranking, and response.
             </p>
           </div>
           <label htmlFor="dashboard-query-input" className="sr-only">
@@ -105,6 +93,16 @@ export function Dashboard() {
             >
               {processLoading ? "…" : "Run"}
             </Button>
+            {traces.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setHistorySheetOpen(true)}
+                aria-label="Show trace history"
+                className="inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md bg-bg-muted p-2 text-text-primary transition-colors hover:opacity-80"
+              >
+                <History className="size-5" aria-hidden />
+              </button>
+            )}
           </div>
           <hr />
           {processError && (
@@ -139,23 +137,65 @@ export function Dashboard() {
               currentVote={feedbackVotes[selectedTrace.trace_id] ?? null}
               onFeedbackUp={async () => {
                 await submitFeedback(selectedTrace.trace_id, "up");
-                setFeedbackVotes((prev) => ({ ...prev, [selectedTrace.trace_id]: "up" }));
+                setFeedbackVotes((prev) => ({
+                  ...prev,
+                  [selectedTrace.trace_id]: "up",
+                }));
               }}
               onFeedbackDown={async () => {
                 await submitFeedback(selectedTrace.trace_id, "down");
-                setFeedbackVotes((prev) => ({ ...prev, [selectedTrace.trace_id]: "down" }));
+                setFeedbackVotes((prev) => ({
+                  ...prev,
+                  [selectedTrace.trace_id]: "down",
+                }));
               }}
               tracesForExport={traces}
               initialCorrectionResponse={
-                getCorrection(selectedTrace.trace_id)?.corrected_text ?? selectedTrace.response
+                getCorrection(selectedTrace.trace_id)?.corrected_text ??
+                selectedTrace.response
               }
               onSubmitCorrection={async (traceId, correctedText) => {
                 await submitCorrection(traceId, correctedText);
               }}
             />
           )}
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <Sheet open={historySheetOpen} onOpenChange={setHistorySheetOpen}>
+        <SheetContent side="left" className="flex flex-col gap-2 bg-bg-surface border-border">
+          <SheetHeader>
+            <SheetTitle className="flex items-center gap-2 text-sm font-medium text-text-primary">
+              <History className="size-4 shrink-0" aria-hidden />
+              Trace history
+            </SheetTitle>
+          </SheetHeader>
+          <ul className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 pb-4">
+            {traces.map((t) => (
+              <li key={t.trace_id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedTraceId(t.trace_id);
+                    setHistorySheetOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-2 rounded px-2 py-2 text-left text-sm transition-colors hover:bg-bg-muted ${
+                    selectedTraceId === t.trace_id
+                      ? "bg-accent/15 font-medium ring-1 ring-inset ring-accent/40"
+                      : ""
+                  }`}
+                >
+                  <span className="w-[20%] min-w-0 shrink-0 truncate font-mono text-accent">
+                    {t.trace_id.slice(-6)}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate">{t.query}</span>
+                  <ModelBadge model={t.model} provider={t.provider} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </SheetContent>
+      </Sheet>
     </main>
   );
 }
