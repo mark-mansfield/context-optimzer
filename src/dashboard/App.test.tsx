@@ -55,3 +55,13 @@ test("trace history shows label and list items with short ID and query", async (
   const idSpan = listButton?.querySelector(".text-accent.font-mono");
   expect(idSpan?.textContent?.length).toBeGreaterThan(0);
 });
+
+test("trace list shows model badge for each trace when model is available", async () => {
+  const { container } = renderDashboardAtRoute();
+  const main = within(container).getAllByRole("main")[0];
+  const input = within(main).getByRole("textbox", { name: /query input/i });
+  fireEvent.change(input, { target: { value: "What is the refund policy?" } });
+  fireEvent.click(within(main).getByRole("button", { name: /^run$/i }));
+  await within(main).findByText("What is the refund policy?");
+  expect(within(main).getByText("Llama 3.1")).toBeDefined();
+});
