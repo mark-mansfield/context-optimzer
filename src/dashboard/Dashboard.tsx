@@ -2,6 +2,7 @@ import { useState } from "react";
 import { submitFeedback, type FeedbackVote } from "@/api/feedback";
 import { getCorrection, submitCorrection } from "@/api/correction";
 import { processQuery, type ProcessTrace } from "@/api/process";
+import { ModelBadge } from "@/components/model-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TraceView } from "@/components/trace-view";
 
@@ -63,6 +64,7 @@ export function Dashboard() {
                     {t.trace_id.slice(-6)}
                   </span>
                   <span className="min-w-0 flex-1 truncate text-text-primary">{t.query}</span>
+                  <ModelBadge model={t.model} provider={t.provider} />
                 </button>
               </li>
             ))}
@@ -104,7 +106,7 @@ export function Dashboard() {
               {processError}
             </p>
           )}
-          {selectedTrace ? (
+          {selectedTrace && (
             <TraceView
               trace={{
                 traceId: selectedTrace.traceId,
@@ -120,6 +122,10 @@ export function Dashboard() {
                 outputTokens: selectedTrace.outputTokens,
                 cost: selectedTrace.cost,
                 naiveRagInputTokens: selectedTrace.naiveRagInputTokens,
+                model: selectedTrace.model,
+                routingClass: selectedTrace.routingClass,
+                routingConfidence: selectedTrace.routingConfidence,
+                routingReason: selectedTrace.routingReason,
               }}
               loading={processLoading && traces.length === 0}
               error={processError}
@@ -141,10 +147,6 @@ export function Dashboard() {
                 await submitCorrection(traceId, correctedText);
               }}
             />
-          ) : (
-            <div className="rounded-md border border-border bg-bg-surface p-6 text-text-muted">
-              Select a trace from the list or run a new query to see the trace view.
-            </div>
           )}
         </section>
       </div>
