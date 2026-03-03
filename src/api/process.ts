@@ -27,6 +27,9 @@ export interface ProcessTrace {
   response: string;
   traceId: string;
   steps: ProcessTraceStep[];
+  /** Nodes as returned by retrieval (Phase 1): raw chunks only, no reranker score/status. */
+  retrievalNodes?: ProcessTraceNode[];
+  /** Nodes after rerank (Phase 2): score, status (kept/pruned), rerankedText. */
   nodes?: ProcessTraceNode[];
   /** Simulated nodes shown when the Response step is selected in the timeline. */
   responseNodes?: ProcessTraceNode[];
@@ -51,6 +54,32 @@ const DEFAULT_STEPS: ProcessTraceStep[] = [
   { id: "rerank", label: "Rerank", status: "done" },
   { id: "response", label: "Response", status: "done" },
 ];
+
+/** Raw chunks as returned by hybrid retrieval (Phase 1): no scores, no pruning. */
+function makeMockRetrievalNodes(): ProcessTraceNode[] {
+  return [
+    { id: "refund-policy.md:0", rawText: "The refund policy allows customers to request a full refund within 30 days of purchase for unused products. For digital goods, refunds are handled on a case-by-case basis. Contact support for eligibility. The refund policy allows customers to request a full refund within 30 days of purchase for unused products. For digital goods, refunds are handled on a case-by-case basis. Contact support for eligibility.", rerankedText: "" },
+    { id: "shipping-faq.md:0", rawText: "Shipping times vary by region. Standard delivery is 5–7 business days; express options are available at checkout. International shipping may take 2–4 weeks. Shipping times vary by region. Standard delivery is 5–7 business days; express options are available at checkout.", rerankedText: "" },
+    { id: "returns-guide.md:1", rawText: "To initiate a return, log into your account and open the order history. Select the item and click Request Return. You will receive a prepaid label. To initiate a return, log into your account and open the order history. Select the item and click Request Return.", rerankedText: "" },
+    { id: "warranty-terms.md:0", rawText: "Warranty coverage includes manufacturing defects but excludes normal wear and tear or misuse. Claims must be filed within the warranty period. Warranty coverage includes manufacturing defects but excludes normal wear and tear or misuse.", rerankedText: "" },
+    { id: "support-hours.md:0", rawText: "Customer support is available Monday–Friday 9am–6pm EST. Live chat and email are offered 24/7. Phone support follows business hours. Customer support is available Monday–Friday 9am–6pm EST.", rerankedText: "" },
+    { id: "loyalty-program.md:2", rawText: "Loyalty points are earned on every purchase and can be redeemed for discounts on future orders. Tier benefits include free shipping and early access. Loyalty points are earned on every purchase and can be redeemed for discounts.", rerankedText: "" },
+    { id: "subscriptions.md:0", rawText: "Subscription plans can be cancelled at any time from the account settings page. No cancellation fee applies. Prorated refunds may be available. Subscription plans can be cancelled at any time from the account settings page.", rerankedText: "" },
+    { id: "payments.md:1", rawText: "Payment methods accepted include major credit cards, PayPal, and select buy-now-pay-later options. All transactions are encrypted. Payment methods accepted include major credit cards, PayPal, and select buy-now-pay-later options.", rerankedText: "" },
+    { id: "product-specs.md:3", rawText: "Product specifications and dimensions are listed on each product page. Weight, materials, and care instructions are included. Product specifications and dimensions are listed on each product page.", rerankedText: "" },
+    { id: "about-us.md:0", rawText: "The company was founded in 2010 and has since expanded to over 50 countries worldwide. Our headquarters are in San Francisco. The company was founded in 2010 and has since expanded to over 50 countries worldwide.", rerankedText: "" },
+    { id: "about-us.md:1", rawText: "Our mission is to deliver quality products with a focus on sustainability and customer satisfaction. We partner with certified suppliers. Our mission is to deliver quality products with a focus on sustainability.", rerankedText: "" },
+    { id: "press-releases.md:0", rawText: "Press releases and investor relations information can be found in the corporate section of the website. Annual reports and SEC filings are published there. Press releases and investor relations information can be found in the corporate section.", rerankedText: "" },
+    { id: "promotions.md:2", rawText: "Seasonal promotions run during major holidays. Sign up for the newsletter to receive early access. Flash sales are announced on social media. Seasonal promotions run during major holidays.", rerankedText: "" },
+    { id: "privacy-policy.md:1", rawText: "The site uses cookies to improve experience and analyze traffic. See the privacy policy for details. You can manage preferences in account settings. The site uses cookies to improve experience and analyze traffic.", rerankedText: "" },
+    { id: "developer-docs.md:0", rawText: "Technical documentation for API integration is available in the developer portal. Authentication uses OAuth 2.0. Rate limits and webhooks are documented. Technical documentation for API integration is available in the developer portal.", rerankedText: "" },
+    { id: "care-instructions.md:0", rawText: "Care instructions for each material type are provided on the product label and in the product description. Washing and storage tips are included. Care instructions for each material type are provided on the product label.", rerankedText: "" },
+    { id: "inventory.md:1", rawText: "Inventory levels are updated in real time. Out-of-stock items can be added to a waitlist. Notifications are sent when items are back. Inventory levels are updated in real time.", rerankedText: "" },
+    { id: "marketplace-terms.md:0", rawText: "Third-party sellers must comply with marketplace guidelines. Verified seller badges indicate compliance. Dispute resolution is handled by the platform. Third-party sellers must comply with marketplace guidelines.", rerankedText: "" },
+    { id: "legal-terms.md:2", rawText: "Legal terms and conditions govern use of the platform. By placing an order you accept these terms. Arbitration and jurisdiction are specified. Legal terms and conditions govern use of the platform.", rerankedText: "" },
+    { id: "site-footer.md:0", rawText: "Footer links include accessibility, sitemap, and contact. Social media icons link to official channels. Newsletter signup is in the footer. Footer links include accessibility, sitemap, and contact.", rerankedText: "" },
+  ];
+}
 
 function makeMockNodes(): ProcessTraceNode[] {
   return [
@@ -230,6 +259,7 @@ const store = new Map<string, ProcessTrace>();
 
 export function processQuery(query: string): Promise<ProcessTrace> {
   const trace_id = generateTraceId();
+  const retrievalNodes = makeMockRetrievalNodes();
   const nodes = makeMockNodes();
   const responseNodes = makeMockResponseNodes();
   const trace: ProcessTrace = {
@@ -238,6 +268,7 @@ export function processQuery(query: string): Promise<ProcessTrace> {
     response: `Mock response for: "${query}"`,
     traceId: trace_id,
     steps: [...DEFAULT_STEPS],
+    retrievalNodes,
     nodes,
     responseNodes,
     tokensSaved: 145,

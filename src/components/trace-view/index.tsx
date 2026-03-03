@@ -18,6 +18,9 @@ export type TraceViewStepId = "retrieval" | "rerank" | "response";
 
 /** Trace shape for TraceView: steps for Timeline and nodes for Node Inspector. */
 export interface TraceViewTrace extends TimelineTrace {
+  /** Nodes as returned by retrieval (Phase 1); raw chunks only. */
+  retrievalNodes?: InspectorNode[];
+  /** Nodes after rerank (Phase 2); score, status, rerankedText. */
   nodes?: InspectorNode[];
   /** Optional nodes to show when the Response step is selected (simulated response context). */
   responseNodes?: InspectorNode[];
@@ -62,6 +65,7 @@ function nodesForStep(
 ): InspectorNode[] {
   if (!trace) return [];
   if (stepId === "response") return trace.responseNodes ?? [];
+  if (stepId === "retrieval") return trace.retrievalNodes ?? trace.nodes ?? [];
   return trace.nodes ?? [];
 }
 
@@ -194,16 +198,16 @@ export function TraceView({
 
       <section className="flex flex-col gap-4 rounded-md border border-border bg-bg-surface px-5 py-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-semibold text-text-primary">Node Inspector</h3>
+          <h3 className="text-sm font-semibold text-text-primary">Chunk Inspector</h3>
           <p className="flex items-center gap-1.5 text-xs text-text-muted">
             <span>
-              Sample chunk, relevance score, and edit correction for the selected step.
+              Context chunk, relevance score for the selected step.
             </span>
             <span className="group relative shrink-0">
               <button
                 type="button"
                 className="rounded p-0.5 text-text-muted transition-colors hover:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-1 focus:ring-offset-bg-surface"
-                aria-label="What is the Node Inspector?"
+                aria-label="What is the Chunk Inspector?"
                 aria-describedby="node-inspector-tooltip"
               >
                 <CircleHelp size={14} strokeWidth={2} />
@@ -213,7 +217,7 @@ export function TraceView({
                 role="tooltip"
                 className="pointer-events-none absolute left-1/2 top-full z-10 mt-1.5 w-56 -translate-x-1/2 rounded-md border border-border bg-bg-surface px-2.5 py-2 text-left text-xs font-normal text-text-primary shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100"
               >
-                Shows the retrieved context for the selected step: a sample chunk, its relevance score, and the edit-correction field. Change the timeline step above to see different data.
+                Shows the retrieved context for the selected step: Change the timeline step above to see different data.
               </span>
             </span>
           </p>
@@ -222,6 +226,7 @@ export function TraceView({
           nodes={inspectorNodes}
           loading={loading}
           error={error}
+          showScoreColumn={selectedStep !== "retrieval"}
         />
       </section>
     </div>

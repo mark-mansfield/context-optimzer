@@ -21,7 +21,7 @@ describe("process API (mock)", () => {
     expect(typeof trace.response).toBe("string");
   });
 
-  it("processQuery returns TraceView shape: traceId, steps, nodes", async () => {
+  it("processQuery returns TraceView shape: traceId, steps, retrievalNodes, nodes", async () => {
     const trace = await processQuery("Hello");
     expect(trace.traceId).toBe(trace.trace_id);
     expect(Array.isArray(trace.steps)).toBe(true);
@@ -29,6 +29,14 @@ describe("process API (mock)", () => {
     trace.steps.forEach((step) => {
       expect(step).toHaveProperty("id");
       expect(step).toHaveProperty("label");
+    });
+    expect(Array.isArray(trace.retrievalNodes)).toBe(true);
+    trace.retrievalNodes?.forEach((node) => {
+      expect(node).toHaveProperty("id");
+      expect(node).toHaveProperty("rawText");
+      expect(node).toHaveProperty("rerankedText");
+      expect(node.status).toBeUndefined();
+      expect(node.score).toBeUndefined();
     });
     expect(Array.isArray(trace.nodes)).toBe(true);
     trace.nodes?.forEach((node) => {

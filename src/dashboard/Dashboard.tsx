@@ -109,6 +109,7 @@ export function Dashboard() {
               trace={{
                 traceId: selectedTrace.traceId,
                 steps: selectedTrace.steps,
+                retrievalNodes: selectedTrace.retrievalNodes,
                 nodes: selectedTrace.nodes,
                 responseNodes: selectedTrace.responseNodes,
                 response: selectedTrace.response,
