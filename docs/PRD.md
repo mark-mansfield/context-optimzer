@@ -86,8 +86,9 @@ DCO sits between the user and the LLM, using **Hybrid Search**, **Semantic Reran
 - **Requirements:**
   - **Token Visualization:** Show "Tokens Saved" vs. "Tokens Sent."
   - **Trace Log:** Show the step-by-step logic (`Retrieval` -> `Rerank` -> `Route`).
+  - **Model routing visibility (debugging):** In the trace detail, show which model was used and the routing class (e.g. Informational / Reasoning) in a dedicated "Model routing" card. In the trace list (sidebar), show a compact model badge per trace so users can quickly see which model served each run.
   - **UI reference:** Layout and components align with the design mockup ([UI reference](ui-refs/dashboard.png)).
-  - **Export to Gold-Set:** Allow exporting high-quality traces to a gold set for evaluation.
+  - **Export to Gold-Set:** Allow exporting high-quality traces to a gold set for evaluation. Exported records include optional **model** and **routing_class** so evaluators can analyze router behavior and cost by model.
   - **Corrected response UI:** Support for user corrections (e.g. textarea and "Save Correction") linked to the trace.
 
 ---

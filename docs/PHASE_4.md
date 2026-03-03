@@ -47,7 +47,9 @@ Work items listed here are **visual**: match the dashboard to the reference imag
   - Develop a "Tokens Saved" visualizer comparing the DCO output vs. a standard Naive RAG approach.
 - **W4.3: Feedback & Dataset Loop:** \* Implement "Thumbs Up/Down" and "Edit Correction" features.
   - Build a "Export to Gold-Set" button to turn high-quality traces into future evaluation benchmarks.
+  - Gold-set export includes optional **model** and **routing_class** per trace for router evaluation and cost analysis (see TODO_31).
 - **W4.4 (visual):** UI alignment with design mockup. Use [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) (reference image [ui-refs/dashboard.png](ui-refs/dashboard.png)): components table → generate granular TODOs → implement; keep [Playwright visual test](../e2e/dashboard-visual.spec.ts); run/update per [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). See `docs/TODOS/` for current TODOs.
+- **W4.5: Model routing visibility (debugging):** \* Trace data model includes optional model and routing class (TODO_28). In the UI: (A) a "Model routing" card in the trace detail showing which model was used and the routing class (Informational / Reasoning); (D) a model badge in the trace list (sidebar) per trace for quick scanning. See TODO_29 (card), TODO_30 (badge).
 
 ---
 
@@ -58,6 +60,7 @@ To build out the frontend so you can run and explore the dashboard without a rea
 - **TODO_15: Mock process / trace API** — In-memory API: submit a query and get back a trace (TraceView-shaped). Optional list/get for trace history. No LLM or external calls.
 - **TODO_16: Dashboard layout and query flow** — App layout with header (title + theme toggle), query input + Run button, trace list, and trace detail (TraceView). Run calls mock process; selecting a trace shows TraceView.
 - **TODO_17: Wire feedback, correction, and export on trace detail** — On the trace detail view, wire FeedbackButtons to the mock feedback API, EditCorrection to the mock correction API, and ExportGoldSet so the user can vote, correct, and export using existing mocks.
+- **TODO_28–TODO_31: Model routing (data, UI, gold set)** — TODO_28: Add model and routing_class to trace data model and mock. TODO_29: Model routing card in trace detail. TODO_30: Model badge in trace list. TODO_31: Gold-set export includes model and routing_class.
 
 ---
 
