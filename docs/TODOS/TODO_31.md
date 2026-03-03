@@ -1,6 +1,6 @@
 # TODO_31: Gold-set export includes model, routing_class, routing_confidence, routing_reason
 
-Status: TODO
+Status: DONE — GoldSetRecord extended with optional model, routing_class, routing_confidence, routing_reason; buildGoldSetRecords copies from trace when present; goldSetRecordsToJsonl serializes them; unit tests added.
 
 ## Context
 
@@ -26,11 +26,11 @@ Extend **gold-set record format and export** to include optional **model**, **ro
 
 ## Acceptance Criteria
 
-- [ ] GoldSetRecord type includes optional model, routing_class, routing_confidence, routing_reason.
-- [ ] buildGoldSetRecords maps trace.model, trace.routingClass, trace.routingConfidence, trace.routingReason into each record when present.
-- [ ] goldSetRecordsToJsonl serializes the new fields; exported file is valid JSONL.
-- [ ] Existing tests (e.g. export or gold-set tests) updated or extended; no regressions.
-- [ ] Tests and typecheck pass.
+- [x] GoldSetRecord type includes optional model, routing_class, routing_confidence, routing_reason.
+- [x] buildGoldSetRecords maps trace.model, trace.routingClass, trace.routingConfidence, trace.routingReason into each record when present.
+- [x] goldSetRecordsToJsonl serializes the new fields; exported file is valid JSONL.
+- [x] Existing tests (e.g. export or gold-set tests) updated or extended; no regressions.
+- [x] Tests and typecheck pass.
 
 ## Test Plan
 

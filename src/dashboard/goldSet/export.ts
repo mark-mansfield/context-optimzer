@@ -1,6 +1,10 @@
 import { getFeedback } from "@/api/feedback";
 import { getCorrection } from "@/api/correction";
-import type { GoldSetRecord, TraceForExport, BuildGoldSetOptions } from "./types";
+import type {
+  GoldSetRecord,
+  TraceForExport,
+  BuildGoldSetOptions,
+} from "./types";
 
 /**
  * Builds gold-set records from traces using TODO_12 feedback and TODO_13 corrections.
@@ -22,12 +26,18 @@ export function buildGoldSetRecords(
     }
     const correction = getCorrection(t.trace_id);
     const response = correction?.corrected_text ?? t.response;
-    result.push({
+    const record: GoldSetRecord = {
       trace_id: t.trace_id,
       query: t.query,
       response,
       exported_at: now,
-    });
+    };
+    if (t.model != null) record.model = t.model;
+    if (t.routingClass != null) record.routing_class = t.routingClass;
+    if (t.routingConfidence != null)
+      record.routing_confidence = t.routingConfidence;
+    if (t.routingReason != null) record.routing_reason = t.routingReason;
+    result.push(record);
   }
 
   return result;
