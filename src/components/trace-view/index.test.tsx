@@ -94,4 +94,54 @@ describe("TraceView", () => {
     render(<TraceView trace={mockTrace} error="Trace failed" />);
     expect(screen.getAllByText("Trace failed").length).toBeGreaterThanOrEqual(1);
   });
+
+  it("shows Model routing card when trace has model and routingClass with confidence and reason", () => {
+    const traceWithRouting = {
+      ...mockTrace,
+      model: "Llama 3.1 8B",
+      routingClass: "informational" as const,
+      routingConfidence: 0.92,
+      routingReason: "Short factual query.",
+    };
+    render(<TraceView trace={traceWithRouting} />);
+    const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
+    fireEvent.click(responseButton!);
+    expect(screen.getByText("Model routing")).toBeDefined();
+    expect(screen.getByText("Llama 3.1 8B")).toBeDefined();
+    expect(screen.getByText(/Informational/i)).toBeDefined();
+    expect(screen.getByText(/92%|0\.92/)).toBeDefined();
+    expect(screen.getByText("Short factual query.")).toBeDefined();
+  });
+
+  it("hides Model routing section when trace has no model and no routingClass", () => {
+    render(<TraceView trace={mockTrace} />);
+    expect(screen.queryByText("Model routing")).toBeNull();
+  });
+
+  it("hides Model routing card when Response step is not selected even if trace has routing data", () => {
+    const traceWithRouting = {
+      ...mockTrace,
+      model: "Llama 3.1 8B",
+      routingClass: "informational" as const,
+    };
+    render(<TraceView trace={traceWithRouting} />);
+    expect(screen.queryByText("Model routing")).toBeNull();
+    const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
+    fireEvent.click(responseButton!);
+    expect(screen.getByText("Model routing")).toBeDefined();
+  });
+
+  it("shows Model routing card with only model and class when confidence and reason absent", () => {
+    const traceWithPartialRouting = {
+      ...mockTrace,
+      model: "Claude 3.5 Sonnet",
+      routingClass: "reasoning" as const,
+    };
+    render(<TraceView trace={traceWithPartialRouting} />);
+    const responseButton = screen.getAllByRole("button").find((el) => el.textContent?.includes("Response"));
+    fireEvent.click(responseButton!);
+    expect(screen.getByText("Model routing")).toBeDefined();
+    expect(screen.getByText("Claude 3.5 Sonnet")).toBeDefined();
+    expect(screen.getByText(/Reasoning/i)).toBeDefined();
+  });
 });

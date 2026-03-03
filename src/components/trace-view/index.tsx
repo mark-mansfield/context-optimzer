@@ -4,6 +4,7 @@ import type { FeedbackVote } from "@/api/feedback";
 import type { ProviderId } from "@/dashboard/cost/types";
 import type { TraceForExport } from "@/dashboard/goldSet/types";
 import { CostDisplay } from "@/components/cost-display";
+import { ModelRoutingCard } from "@/components/model-routing-card";
 import { TokensSaved } from "@/components/tokens-saved";
 import type { InspectorNode } from "@/components/node-inspector";
 import { NodeInspector } from "@/components/node-inspector";
@@ -36,6 +37,14 @@ export interface TraceViewTrace extends TimelineTrace {
   cost?: number;
   /** Naive RAG input tokens (for TokensSaved comparison). */
   naiveRagInputTokens?: number;
+  /** Model display name (Phase 3 routing). */
+  model?: string;
+  /** Routing class (e.g. informational | reasoning). */
+  routingClass?: "informational" | "reasoning";
+  /** Classifier confidence for chosen class, 0–1. */
+  routingConfidence?: number;
+  /** Optional router rationale or feature summary. */
+  routingReason?: string;
 }
 
 export interface TraceViewProps {
@@ -149,6 +158,16 @@ export function TraceView({
             provider={trace.provider}
             loading={loading}
             error={error}
+          />
+        )}
+
+      {selectedStep === "response" &&
+        (trace?.model != null || trace?.routingClass != null) && (
+          <ModelRoutingCard
+            model={trace.model}
+            routingClass={trace.routingClass}
+            routingConfidence={trace.routingConfidence}
+            routingReason={trace.routingReason}
           />
         )}
 

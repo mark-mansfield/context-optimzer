@@ -84,4 +84,19 @@ describe("process API (mock)", () => {
     const b = await processQuery("Q");
     expect(a.trace_id).not.toBe(b.trace_id);
   });
+
+  it("processQuery returns trace with model routing fields for routing-step debugging", async () => {
+    const trace = await processQuery("How do I return an item?");
+    expect(trace.model).toBeDefined();
+    expect(typeof trace.model).toBe("string");
+    expect(trace.model!.length).toBeGreaterThan(0);
+    expect(trace.routingClass).toBeDefined();
+    expect(["informational", "reasoning"]).toContain(trace.routingClass);
+    expect(trace.routingConfidence).toBeDefined();
+    expect(typeof trace.routingConfidence).toBe("number");
+    expect(trace.routingConfidence!).toBeGreaterThanOrEqual(0);
+    expect(trace.routingConfidence!).toBeLessThanOrEqual(1);
+    expect(trace.routingReason).toBeDefined();
+    expect(typeof trace.routingReason).toBe("string");
+  });
 });

@@ -1,6 +1,6 @@
 # TODO_28: Add model routing fields to trace data model
 
-Status: TODO
+Status: DONE — ProcessTrace, TraceViewTrace, and TraceForExport now include optional model, routingClass, routingConfidence (0–1), routingReason. Mock processQuery populates all four. Unit test added in process.test.ts.
 
 ## Context
 
@@ -25,10 +25,10 @@ Add **model routing fields** to the trace data model so the UI and gold-set expo
 
 ## Acceptance Criteria
 
-- [ ] ProcessTrace (and TraceViewTrace) declare optional `model`, `routingClass`, `routingConfidence`, `routingReason`.
-- [ ] Mock process returns traces with model, routingClass, routingConfidence, and routingReason populated.
-- [ ] No breaking changes to existing trace consumers; new fields are optional.
-- [ ] Tests and typecheck pass.
+- [x] ProcessTrace (and TraceViewTrace) declare optional `model`, `routingClass`, `routingConfidence`, `routingReason`.
+- [x] Mock process returns traces with model, routingClass, routingConfidence, and routingReason populated.
+- [x] No breaking changes to existing trace consumers; new fields are optional.
+- [x] Tests and typecheck pass.
 
 ## Test Plan
 

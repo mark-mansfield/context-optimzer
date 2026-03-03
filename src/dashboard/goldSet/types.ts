@@ -11,6 +11,14 @@ export interface GoldSetRecord {
   query: string;
   response: string;
   exported_at: number;
+  /** Model display name (routing debug). */
+  model?: string;
+  /** Routing class (e.g. informational | reasoning); snake_case for export. */
+  routing_class?: string;
+  /** Classifier confidence 0–1. */
+  routing_confidence?: number;
+  /** Optional router rationale. */
+  routing_reason?: string;
 }
 
 /** Minimal trace shape required to build a gold-set record. */
@@ -18,6 +26,14 @@ export interface TraceForExport {
   trace_id: string;
   query: string;
   response: string;
+  /** Model display name (routing debug). */
+  model?: string;
+  /** Routing class (e.g. informational | reasoning). */
+  routingClass?: "informational" | "reasoning";
+  /** Classifier confidence 0–1. */
+  routingConfidence?: number;
+  /** Optional router rationale. */
+  routingReason?: string;
 }
 
 export interface BuildGoldSetOptions {
