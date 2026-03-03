@@ -5,6 +5,7 @@ import { processQuery, type ProcessTrace } from "@/api/process";
 import { ModelBadge } from "@/components/model-badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { TraceView } from "@/components/trace-view";
+import { Button } from "@/components/ui/button";
 
 export function Dashboard() {
   const [queryInput, setQueryInput] = useState("");
@@ -92,14 +93,15 @@ export function Dashboard() {
               className="min-w-0 max-w-md flex-1 rounded-md border border-border bg-bg-surface px-3 py-2 text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
               aria-label="Query input"
             />
-            <button
+            <Button
               type="button"
               onClick={handleRun}
               disabled={processLoading || !queryInput.trim()}
-              className="rounded-md border border-border bg-bg-muted px-4 py-2.5 font-medium text-text-primary transition-colors hover:bg-bg-elevated disabled:opacity-50 sm:shrink-0"
+              variant="outline"
+              className="sm:shrink-0"
             >
               {processLoading ? "…" : "Run"}
-            </button>
+            </Button>
           </div>
           {processError && (
             <p role="alert" className="text-sm text-danger">

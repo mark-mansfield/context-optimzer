@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export interface EditCorrectionProps {
   traceId: string;
@@ -65,13 +66,15 @@ export function EditCorrection({
         placeholder="Provide a corrected response or note..."
         className="w-full rounded border border-border bg-bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-60"
       />
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="self-end rounded bg-accent px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 disabled:opacity-60"
+        size="sm"
+        variant="default"
+        className="self-end"
       >
         {loading ? "Submitting…" : "Save Correction"}
-      </button>
+      </Button>
       {loading && (
         <div role="status" aria-label="Submitting correction" className="sr-only">
           Submitting…

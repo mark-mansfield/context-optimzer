@@ -1,5 +1,6 @@
 import { buildGoldSetRecords, goldSetRecordsToJsonl } from "@/dashboard/goldSet/export";
 import type { TraceForExport } from "@/dashboard/goldSet/types";
+import { Button } from "@/components/ui/button";
 
 export interface ExportGoldSetProps {
   traces: TraceForExport[];
@@ -31,13 +32,14 @@ export function ExportGoldSet({
   }
 
   return (
-    <button
+    <Button
       type="button"
       onClick={handleClick}
-      className="rounded-md bg-accent px-3 py-1.5 text-xs font-medium text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+      size="sm"
+      variant="default"
       aria-label="Export to Gold-Set"
     >
       Export to Gold-Set
-    </button>
+    </Button>
   );
 }
