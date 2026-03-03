@@ -79,9 +79,10 @@ export function Timeline({
           return (
             <span key={step.id} className="flex min-w-0 flex-1 items-center gap-1">
               <div
-                className={`flex min-w-0 flex-1 flex-col rounded px-3  py-2 text-left text-sm text-text-primary transition-colors ${
-                  isInteractive ? "cursor-pointer hover:bg-bg-muted" : ""
-                } ${isSelected ? "bg-accent/15 font-medium ring-1 ring-inset ring-accent/40" : "ring-0 border-0 bg-bg-muted"}`}
+                data-selected={isSelected ? "true" : undefined}
+                className={`timeline-step flex min-w-0 flex-1 flex-col rounded px-3  py-2 text-left text-sm text-text-primary transition-colors ${
+                  isInteractive ? `cursor-pointer ${isSelected ? "" : "hover:bg-bg-muted"}` : ""
+                } ${isSelected ? "bg-bg-timeline-selected font-medium ring-1 ring-inset ring-border-timeline-selected" : "ring-0 border-0 bg-bg-muted"}`}
                 role={isInteractive ? "button" : undefined}
                 tabIndex={isInteractive ? 0 : undefined}
                 onClick={isInteractive ? () => onStepSelect?.(step.id) : undefined}
