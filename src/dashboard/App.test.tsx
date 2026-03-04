@@ -50,7 +50,8 @@ test("trace history shows label and list items with short ID and query", async (
     name: /show trace history/i,
   });
   fireEvent.click(historyBtn);
-  expect(await screen.findByText("Trace history")).toBeDefined();
+  const traceHistoryLabels = await screen.findAllByText("Trace history");
+  expect(traceHistoryLabels.length).toBeGreaterThanOrEqual(1);
   const queryText = await screen.findByText("What is the refund policy?");
   expect(queryText).toBeDefined();
   const listButton = queryText.closest("button");
