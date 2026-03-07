@@ -1,6 +1,6 @@
 # 🔵 Phase 4: Observability Dashboard
 
-**Description:** The "Transparent Brain" of the DCO ecosystem. This React-based interface visualizes the entire execution lifecycle of a query. It provides high-fidelity "traces" that allow developers to see how the system retrieved, reranked, and routed each request. It serves as the primary tool for debugging "Silent Failures" and managing the FinOps of agentic workflows.
+**Description:** The "Transparent Brain" of the DCO ecosystem. For user stories (run query, view trace, feedback, correction, export, theme), see [DASHBOARD_USER_STORIES.md](DASHBOARD_USER_STORIES.md). This React-based interface visualizes the entire execution lifecycle of a query. It provides high-fidelity "traces" that allow developers to see how the system retrieved, reranked, and routed each request. It serves as the primary tool for debugging "Silent Failures" and managing the FinOps of agentic workflows.
 
 ---
 
@@ -29,6 +29,17 @@ Code Quality: The dashboard includes "Storybook" components for all major UI sta
 
 ---
 
+## Visual work items
+
+Work items listed here are **visual**: match the dashboard to the reference image and gate with a Playwright snapshot test.
+
+| Work item | Reference | Notes |
+|-----------|-----------|--------|
+| **W4.4** | [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) — checklist; reference: [ui-refs/dashboard.png](ui-refs/dashboard.png) | Follow workflow: components table → generate granular TODOs → implement. Keep [e2e visual test](../e2e/dashboard-visual.spec.ts). See [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). |
+| **W4.6** | TODO_32–TODO_34 | Trace history sheet: code-split on user intent (lazy when user opens or prefetches). Presentational UI with `TraceHistoryItem[]`; data in shell (GraphQL-ready). Suspense + error boundary with Retry. |
+
+---
+
 ## 🛠️ Domain Concerns & Work Items
 
 - **W4.1: Trace Visualization Engine:** \* Build a "Timeline" component that maps the transition from Phase 1 (Retrieval) through Phase 3 (Response).
@@ -37,6 +48,21 @@ Code Quality: The dashboard includes "Storybook" components for all major UI sta
   - Develop a "Tokens Saved" visualizer comparing the DCO output vs. a standard Naive RAG approach.
 - **W4.3: Feedback & Dataset Loop:** \* Implement "Thumbs Up/Down" and "Edit Correction" features.
   - Build a "Export to Gold-Set" button to turn high-quality traces into future evaluation benchmarks.
+  - Gold-set export includes optional **model** and **routing_class** per trace for router evaluation and cost analysis (see TODO_31).
+- **W4.4 (visual):** UI alignment with design mockup. Use [VISUAL_WORK_ITEM.md](VISUAL_WORK_ITEM.md) (reference image [ui-refs/dashboard.png](ui-refs/dashboard.png)): components table → generate granular TODOs → implement; keep [Playwright visual test](../e2e/dashboard-visual.spec.ts); run/update per [E2E_VISUAL_TESTS.md](E2E_VISUAL_TESTS.md). See `docs/TODOS/` for current TODOs.
+- **W4.5: Model routing visibility (visual)(debugging):** \* Trace data model includes optional model and routing class (TODO_28). In the UI: (A) a "Model routing" card in the trace detail showing which model was used and the routing class (Informational / Reasoning); (D) a model badge in the trace list (sidebar) per trace for quick scanning. See TODO_29 (card), TODO_30 (badge).
+- **W4.6 (visual): Trace history sheet (code-split):** \* Trace history is a left-side sheet that loads on user intent: lazy-loaded when the user opens it (or prefetched on History button hover/focus). Uses Suspense (minimal loading fallback) and an error boundary with Retry on chunk load failure. Trace list data is kept separate from the history UI (shell owns data, passes `TraceHistoryItem[]`); the list can later be supplied by GraphQL. See TODO_32–TODO_34.
+
+---
+
+## 🎮 Playable Dashboard (mock API, no LLM)
+
+To build out the frontend so you can run and explore the dashboard without a real backend or LLM, the following TODOs apply (see `docs/TODOS/`):
+
+- **TODO_15: Mock process / trace API** — In-memory API: submit a query and get back a trace (TraceView-shaped). Optional list/get for trace history. No LLM or external calls.
+- **TODO_16: Dashboard layout and query flow** — App layout with header (title + theme toggle), query input + Run button, trace list, and trace detail (TraceView). Run calls mock process; selecting a trace shows TraceView.
+- **TODO_17: Wire feedback, correction, and export on trace detail** — On the trace detail view, wire FeedbackButtons to the mock feedback API, EditCorrection to the mock correction API, and ExportGoldSet so the user can vote, correct, and export using existing mocks.
+- **TODO_28–TODO_31: Model routing (data, UI, gold set)** — TODO_28: Add model and routing_class to trace data model and mock. TODO_29: Model routing card in trace detail. TODO_30: Model badge in trace list. TODO_31: Gold-set export includes model and routing_class.
 
 ---
 

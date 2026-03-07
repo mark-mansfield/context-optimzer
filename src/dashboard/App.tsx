@@ -1,7 +1,13 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Dashboard } from "./Dashboard";
+
 export function App() {
   return (
-    <main>
-      <h1>DCO Dashboard</h1>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
