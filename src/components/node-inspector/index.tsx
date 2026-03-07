@@ -58,17 +58,21 @@ export function NodeInspector({
 
   return (
     <div className="min-w-0 overflow-x-auto">
-      <table className="w-full min-w-[400px] table-fixed border-collapse text-left">
+      <table className="w-full table-fixed border-collapse text-left">
         <thead>
           <tr className="border-b border-border">
-            <th className={`min-w-0 pb-2 pr-3 text-xs font-semibold text-text-secondary ${showScoreColumn ? "w-full" : "w-28 shrink-0"}`}>
+            <th
+              className={`min-w-0 pb-2 pr-3 text-xs font-semibold text-text-secondary ${
+                showScoreColumn ? "w-full" : "w-28 shrink-0"
+              }`}
+            >
               Context chunk
             </th>
             {showScoreColumn && (
               <th className="w-28 shrink-0 pb-2 pl-0 pr-3 text-left text-xs font-semibold text-text-secondary">
                 Score
               </th>
-            ) }
+            )}
           </tr>
         </thead>
         <tbody>
@@ -84,8 +88,8 @@ export function NodeInspector({
               node.status == null
                 ? "border-l-4 border-l-border"
                 : isKept
-                  ? "border-l-4 border-l-success"
-                  : "border-l-4 border-l-danger";
+                ? "border-l-4 border-l-success"
+                : "border-l-4 border-l-danger";
             return (
               <tr
                 key={node.id}
@@ -131,7 +135,9 @@ export function NodeInspector({
                       )}
                       {node.status != null && (
                         <span
-                          className={`text-xs font-medium ${isKept ? "text-success" : "text-danger"}`}
+                          className={`text-xs font-medium ${
+                            isKept ? "text-success" : "text-danger"
+                          }`}
                         >
                           {node.status}
                         </span>

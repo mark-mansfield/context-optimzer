@@ -97,11 +97,9 @@ export function Timeline({
                     : undefined
                 }
               >
-                <div className="flex items-start justify-between gap-2">
-                  <span className="text-sm font-semibold">{step.label}</span>
-                  <span className="text-xs font-medium shrink-0">{step.durationMs}ms</span>
-                </div>
-                <span className="text-xs text-text-muted">{step.timestamp}</span>
+                <span className="block text-sm font-semibold">{step.label}</span>
+                <span className="block text-xs font-medium">{step.durationMs}ms</span>
+                <span className="block text-xs text-text-muted">{step.timestamp}</span>
               </div>
               {index < stepsWithTiming.length - 1 && (
                 <span className="shrink-0 px-0.5 text-text-muted" aria-hidden>
