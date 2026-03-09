@@ -1,6 +1,6 @@
 # TODO_39: LanceDB vector store for semantic search
 
-Status: TODO
+Status: DONE — Added typed LanceDB store (`src/retrieval/lancedb-store.ts`) with insert and user-scoped vector search APIs, plus unit tests for top-k behavior and tenant isolation by `user_id`. Added LanceDB/Arrow dependencies and validated with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -25,10 +25,10 @@ Implement the **LanceDB** vector store integration for semantic (dense) search. 
 
 ## Acceptance Criteria
 
-- [ ] LanceDB table created/opened with schema supporting embedding dimension and metadata (including `user_id`).
-- [ ] Insert and query APIs are typed; query accepts `user_id` and returns only rows matching that metadata.
-- [ ] Unit tests cover: insert, query by vector, and filter-by-`user_id` behavior.
-- [ ] 100% of retrieval logic in this module is TypeScript-typed (per Phase 1 DoD).
+- [x] LanceDB table created/opened with schema supporting embedding dimension and metadata (including `user_id`).
+- [x] Insert and query APIs are typed; query accepts `user_id` and returns only rows matching that metadata.
+- [x] Unit tests cover: insert, query by vector, and filter-by-`user_id` behavior.
+- [x] 100% of retrieval logic in this module is TypeScript-typed (per Phase 1 DoD).
 
 ## Test Plan
 

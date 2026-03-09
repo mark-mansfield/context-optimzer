@@ -1,6 +1,6 @@
 # TODO_44: Ingestion pipeline (parse MD/JSON/PDF → sanitize → chunk → dual index)
 
-Status: TODO
+Status: DONE — Implemented build-time ingestion pipeline (`src/ingestion/pipeline.ts`) for MD/JSON/PDF → sanitize → smart split → dual indexing (LanceDB + BM25 snapshot), plus integration test (`src/ingestion/pipeline.test.ts`) and build scripts (`ingest:kb`, `build:with-kb`). Added `.cursorignore` entry for `docs/knowledge-base/**`. Verified with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -26,12 +26,12 @@ Implement the **ingestion pipeline** that: (1) reads source documents from a con
 
 ## Acceptance Criteria
 
-- [ ] Markdown, JSON, and PDF are parsed and converted to text; chunking uses Smart Splitter (TODO_37).
-- [ ] All content is sanitized (TODO_38) before chunking and indexing.
-- [ ] Embeddings are written to LanceDB with metadata (including `user_id`); BM25 index is built from same chunks.
-- [ ] Output is written to configured path; app can load from it at runtime.
-- [ ] Source directory for knowledge-base is in `.cursorignore`.
-- [ ] Pipeline is runnable via a defined script (e.g. `yarn build:with-kb`); no runtime ingestion in this TODO.
+- [x] Markdown, JSON, and PDF are parsed and converted to text; chunking uses Smart Splitter (TODO_37).
+- [x] All content is sanitized (TODO_38) before chunking and indexing.
+- [x] Embeddings are written to LanceDB with metadata (including `user_id`); BM25 index is built from same chunks.
+- [x] Output is written to configured path; app can load from it at runtime.
+- [x] Source directory for knowledge-base is in `.cursorignore`.
+- [x] Pipeline is runnable via a defined script (e.g. `yarn build:with-kb`); no runtime ingestion in this TODO.
 
 ## Test Plan
 

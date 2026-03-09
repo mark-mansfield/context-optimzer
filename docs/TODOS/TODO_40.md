@@ -1,6 +1,6 @@
 # TODO_40: BM25 sparse (lexical) index
 
-Status: TODO
+Status: DONE — Added typed BM25-like lexical index (`src/retrieval/bm25-index.ts`) with deterministic tokenization, BM25 scoring, top-k search, and `user_id` filtering. Added unit tests for ranking and tenant isolation; validated with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -24,10 +24,10 @@ Implement a **BM25-compatible sparse (lexical) index** for keyword-matching retr
 
 ## Acceptance Criteria
 
-- [ ] BM25 (or BM25-like) scoring is used for ranking; implementation or library is documented.
-- [ ] Index supports metadata filter by `user_id` at query time (tenant isolation).
-- [ ] APIs are 100% TypeScript-typed; unit tests cover build, query, and `user_id` filtering.
-- [ ] Integration point compatible with dual-stream retriever (TODO_43): returns list of ranked items that can be merged via RRF.
+- [x] BM25 (or BM25-like) scoring is used for ranking; implementation or library is documented.
+- [x] Index supports metadata filter by `user_id` at query time (tenant isolation).
+- [x] APIs are 100% TypeScript-typed; unit tests cover build, query, and `user_id` filtering.
+- [x] Integration point compatible with dual-stream retriever (TODO_43): returns list of ranked items that can be merged via RRF.
 
 ## Test Plan
 

@@ -1,6 +1,6 @@
 # TODO_42: user_id metadata filtering at database level
 
-Status: TODO
+Status: DONE — Added shared retrieval filter contract (`src/retrieval/types.ts`) and cross-store isolation integration test (`src/retrieval/user-filtering.test.ts`) proving no cross-tenant leakage across LanceDB and BM25. Verified with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -25,10 +25,10 @@ Ensure that **all retrieval paths** (LanceDB and BM25) enforce `user_id` (or ten
 
 ## Acceptance Criteria
 
-- [ ] LanceDB queries are scoped by `user_id` (already in TODO_39; confirm and document).
-- [ ] BM25 queries are scoped by `user_id` (already in TODO_40; confirm and document).
-- [ ] At least one test demonstrates: data for user A is never returned when querying as user B.
-- [ ] No retrieval API allows “all users” or unfiltered results in production code paths.
+- [x] LanceDB queries are scoped by `user_id` (already in TODO_39; confirm and document).
+- [x] BM25 queries are scoped by `user_id` (already in TODO_40; confirm and document).
+- [x] At least one test demonstrates: data for user A is never returned when querying as user B.
+- [x] No retrieval API allows “all users” or unfiltered results in production code paths.
 
 ## Test Plan
 

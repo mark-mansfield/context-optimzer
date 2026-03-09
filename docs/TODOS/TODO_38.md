@@ -1,6 +1,6 @@
 # TODO_38: Content sanitization (strip HTML/script tags)
 
-Status: TODO
+Status: DONE — Added `src/ingestion/sanitize.ts` and unit tests: strips script/style (with content), strips all HTML tags; preserves plain text and Markdown content; pure and deterministic.
 
 ## Context
 
@@ -22,9 +22,9 @@ Implement a **sanitization** step used during ingestion to strip HTML and script
 
 ## Acceptance Criteria
 
-- [ ] All HTML tags (e.g. `<div>`, `<script>`, `<img>`) are stripped or escaped so they are not executed or rendered as HTML.
-- [ ] Script and style tag contents are removed; no executable script reaches the index.
-- [ ] Logic is pure and deterministic; 100% TypeScript-typed with unit tests.
+- [x] All HTML tags (e.g. `<div>`, `<script>`, `<img>`) are stripped or escaped so they are not executed or rendered as HTML.
+- [x] Script and style tag contents are removed; no executable script reaches the index.
+- [x] Logic is pure and deterministic; 100% TypeScript-typed with unit tests.
 
 ## Test Plan
 

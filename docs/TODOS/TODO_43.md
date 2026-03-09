@@ -1,6 +1,6 @@
 # TODO_43: Dual-stream retriever orchestration (parallel semantic + lexical, RRF)
 
-Status: TODO
+Status: DONE — Added typed dual-stream orchestration (`src/retrieval/dual-stream-retriever.ts`) that executes semantic+lexical retrieval in parallel via `Promise.all`, merges ranked IDs with RRF, deduplicates fused output, and returns Phase-2-ready retrieval nodes. Added tests for parallel execution latency budget, RRF dedupe behavior, and user-scoped propagation; validated with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -26,12 +26,12 @@ Implement the **orchestration layer** that runs semantic (LanceDB) and lexical (
 
 ## Acceptance Criteria
 
-- [ ] Semantic and lexical searches run in parallel (e.g. `Promise.all` or equivalent).
-- [ ] Results are merged via RRF (TODO_41); no duplicate nodes in final list.
-- [ ] All retrieval is filtered by `user_id` (via TODO_39 and TODO_40).
-- [ ] Combined retrieval (dense + sparse + merge) executes in < 400ms (measure in test or benchmark).
-- [ ] Unit or integration tests cover: parallel execution, RRF merge, and performance budget.
-- [ ] Output shape is suitable for Phase 2 (reranker) and dashboard trace (e.g. “Phase 1: Retrieval” nodes).
+- [x] Semantic and lexical searches run in parallel (e.g. `Promise.all` or equivalent).
+- [x] Results are merged via RRF (TODO_41); no duplicate nodes in final list.
+- [x] All retrieval is filtered by `user_id` (via TODO_39 and TODO_40).
+- [x] Combined retrieval (dense + sparse + merge) executes in < 400ms (measure in test or benchmark).
+- [x] Unit or integration tests cover: parallel execution, RRF merge, and performance budget.
+- [x] Output shape is suitable for Phase 2 (reranker) and dashboard trace (e.g. “Phase 1: Retrieval” nodes).
 
 ## Test Plan
 

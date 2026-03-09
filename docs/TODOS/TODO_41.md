@@ -1,6 +1,6 @@
 # TODO_41: Reciprocal Rank Fusion (RRF) merge function
 
-Status: TODO
+Status: DONE — Added typed RRF merge utility (`src/retrieval/rrf.ts`) implementing configurable-k Reciprocal Rank Fusion with stable tie-breaking; added unit tests for formula correctness, configurable `k`, overlap boosting, and deterministic deduped output. Verified with full `yarn test` + `yarn typecheck`.
 
 ## Context
 
@@ -23,11 +23,11 @@ Implement the **Reciprocal Rank Fusion (RRF)** function that combines two (or mo
 
 ## Acceptance Criteria
 
-- [ ] RRF formula implemented correctly: score(node) = sum over lists of `1 / (k + rank)`.
-- [ ] Parameter `k` is configurable; default 60 per PHASE_1.md.
-- [ ] Output is deterministic; ties can be broken by order of first appearance or stable sort.
-- [ ] 100% TypeScript-typed; unit tests cover formula, multiple lists, and missing items in one list.
-- [ ] Phase 1 DoD: unit tests for RRF merge function present and passing.
+- [x] RRF formula implemented correctly: score(node) = sum over lists of `1 / (k + rank)`.
+- [x] Parameter `k` is configurable; default 60 per PHASE_1.md.
+- [x] Output is deterministic; ties can be broken by order of first appearance or stable sort.
+- [x] 100% TypeScript-typed; unit tests cover formula, multiple lists, and missing items in one list.
+- [x] Phase 1 DoD: unit tests for RRF merge function present and passing.
 
 ## Test Plan
 

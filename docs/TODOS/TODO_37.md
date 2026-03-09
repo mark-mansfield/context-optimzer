@@ -1,6 +1,6 @@
 # TODO_37: Smart Chunking Strategy (Smart Splitter)
 
-Status: TODO
+Status: DONE — Added `src/chunking/smart-splitter.ts` and unit tests: segments by fenced/indented code blocks and ATX headers, builds chunks with configurable maxChunkSize and overlap; deterministic; content preserved (normalized newlines).
 
 ## Context
 
@@ -24,10 +24,10 @@ Implement a **Smart Splitter** that produces consistent chunks from raw document
 
 ## Acceptance Criteria
 
-- [ ] Splitter respects Markdown code blocks (fenced and indented) and does not fragment them.
-- [ ] Splitter respects technical headers (e.g. `##`, `###`) as preferred split points.
-- [ ] Configurable max chunk size and optional overlap; output is deterministic for same input.
-- [ ] 100% TypeScript-typed; unit tests cover code-block preservation and header-boundary behavior.
+- [x] Splitter respects Markdown code blocks (fenced and indented) and does not fragment them.
+- [x] Splitter respects technical headers (e.g. `##`, `###`) as preferred split points.
+- [x] Configurable max chunk size and optional overlap; output is deterministic for same input.
+- [x] 100% TypeScript-typed; unit tests cover code-block preservation and header-boundary behavior.
 
 ## Test Plan
 
