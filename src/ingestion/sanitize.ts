@@ -4,19 +4,19 @@
  */
 
 /**
- * Remove script and style elements (including their content) case-insensitively.
+ * Remove all HTML markup from `raw` in a single pipeline:
+ * 1. Replace complete <script>…</script> blocks (including content) with a space.
+ * 2. Replace complete <style>…</style> blocks (including content) with a space.
+ * 3. Strip all remaining HTML tags so no tag fragments remain.
+ *
+ * Using `[^>]*` for closing-tag attributes handles whitespace variants like
+ * `</script  >` and `</SCRIPT>` in addition to the standard form.
  */
-function removeScriptAndStyle(html: string): string {
+function removeAllHtml(html: string): string {
   return html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
-}
-
-/**
- * Remove all remaining HTML tags (e.g. <div>, <img>, </span>).
- */
-function stripHtmlTags(text: string): string {
-  return text.replace(/<[^>]+>/g, " ");
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script[^>]*>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style[^>]*>/gi, " ")
+    .replace(/<[^>]*>/g, " ");
 }
 
 /**
@@ -33,7 +33,6 @@ function normalizeSpaces(text: string): string {
  */
 export function sanitizeForIngestion(raw: string): string {
   if (raw.length === 0) return "";
-  const withoutScriptStyle = removeScriptAndStyle(raw);
-  const withoutTags = stripHtmlTags(withoutScriptStyle);
-  return normalizeSpaces(withoutTags);
+  return normalizeSpaces(removeAllHtml(raw));
 }
+
